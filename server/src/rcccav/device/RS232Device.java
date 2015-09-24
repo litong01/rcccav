@@ -1,32 +1,67 @@
-package rcccav;
+package rcccav.device;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.json.simple.JSONObject;
-
 import jssc.SerialPort;
-import jssc.SerialPortException;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
 import jssc.SerialPortTimeoutException;
 
+import org.json.simple.JSONObject;
 
-public class AVDevice implements SerialPortEventListener {
 
-    private static final Logger LOG = Logger.getLogger(AVDevice.class.getName());
-    private JSONObject spec = null;
+public class RS232Device extends Device implements SerialPortEventListener{
+
+    private static final Logger LOG = Logger.getLogger(RS232Device.class.getName());
     private SerialPort serialPort = null;
-    private AVDeviceSetting setting = null;
-    private String actionResult = "";
 
-    public AVDevice(JSONObject spec) {
+    public RS232Device(JSONObject spec) {
         this.spec = spec;
-        this.setting = new AVDeviceSetting(this.spec);
+        this.setting = new DeviceSetting(this.spec);
     }
 
-    public String getActionResult() {
-        return this.actionResult;
+    private byte[] getCmdByte(String cmd) {
+        String cmdStr = this.setting.actions.get(cmd);
+        String[] numbers = cmdStr.replace(" ", "").split(",");
+        if (numbers.length > 0) {
+            String charStr = new String();
+            for (String number: numbers) {
+                charStr += (char) Integer.decode(number).byteValue();
+            }
+            return charStr.getBytes();
+        }
+        else return null;
+    }
+
+    @Override
+    public void doCommand(String cmd) {
+        try {
+            if (this.setting.actions.containsKey(cmd)) {
+                this.actionResult = "";
+                this.initDevice();
+                byte[] action = this.getCmdByte(cmd);
+                this.serialPort.writeBytes(action);
+            }
+        }
+        catch (Exception ex) {
+            LOG.severe(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void disconnect() {
+        if (this.serialPort.isOpened()) {
+            try {
+                this.serialPort.removeEventListener();
+                this.serialPort.closePort();
+            }
+            catch (SerialPortException ex) {
+                ex.printStackTrace();
+                LOG.severe(ex.getMessage());
+            }
+        }
     }
 
     public void serialEvent(SerialPortEvent event) {
@@ -62,27 +97,12 @@ public class AVDevice implements SerialPortEventListener {
         }
     }
 
-    public void doCommand(String command)
-    {
-        try {
-            if (this.setting.actions.containsKey(command)) {
-                this.actionResult = "";
-                this.initDevice();
-                byte[] action = this.setting.actions.get(command);
-                this.serialPort.writeBytes(action);
-            }
-        }
-        catch (Exception ex) {
-            LOG.severe(ex.getMessage());
-        }
-    }
-
     private void initDevice()
     {
         try {
             this.serialPort = new SerialPort(this.setting.deviceId);
             this.serialPort.openPort();
-            HashMap<String, Integer> settings = this.setting.settings;
+            HashMap<String, Integer> settings = this.setting.nParams;
             this.serialPort.setParams(settings.get("BAUDRATE"),
                                       settings.get("DATABITS"),
                                       settings.get("STOPBITS"),
@@ -105,19 +125,6 @@ public class AVDevice implements SerialPortEventListener {
         catch (SerialPortException ex) {
             ex.printStackTrace();
             LOG.severe(ex.getMessage());
-        }
-    }
-
-    public void disconnect() {
-        if (this.serialPort.isOpened()) {
-            try {
-                this.serialPort.removeEventListener();
-                this.serialPort.closePort();
-            }
-            catch (SerialPortException ex) {
-                ex.printStackTrace();
-                LOG.severe(ex.getMessage());
-            }
         }
     }
 }

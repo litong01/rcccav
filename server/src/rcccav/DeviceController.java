@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import jssc.SerialPortList;
 
+import rcccav.device.Device;
+
 public class DeviceController {
 
     private static final Logger LOG = Logger.getLogger(DeviceController.class.getName());
@@ -28,9 +30,19 @@ public class DeviceController {
     }
 
     public String doCommand(String deviceName, String command) {
-        AVDevice device = this.config.getDevicesByName(deviceName);
+        Device device = this.config.getDevicesByName(deviceName);
         if (device != null) {
             device.doCommand(command);
+            // Wait for the command to complete
+            try { Thread.sleep(100);} catch (InterruptedException ex) {}
+        }
+        return "";
+    }
+
+    public String getActionResponse(String deviceName) {
+        Device device = this.config.getDevicesByName(deviceName);
+        if (device != null) {
+            return device.getActionResult();
         }
         return "";
     }
@@ -67,9 +79,9 @@ public class DeviceController {
 
         //We only support up to LEVELS_SUPPORTED levels of delays
         for (int index=0; index<=LEVELS_SUPPORTED; index++) {
-            ArrayList<AVDevice> devices = this.config.getDevicesBySequence(start);
+            ArrayList<Device> devices = this.config.getDevicesBySequence(start);
             if (devices != null) {
-                for (AVDevice device: devices) {
+                for (Device device: devices) {
                     device.doCommand(cmd);
                 }
                 try {
