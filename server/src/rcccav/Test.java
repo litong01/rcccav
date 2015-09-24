@@ -11,7 +11,7 @@ public class Test {
     public static void main(String[] args) {
         LOG.info("Test started!");
         String config_file = args[0];
-        
+
         // Get a device controller instance by passing the configuration file
         DeviceController controller = DeviceController.getInstance(config_file);
 
@@ -20,9 +20,13 @@ public class Test {
             LOG.info(name);
         }
 
-        // Call a specific command off of specific controller
+        // Execute "OFF" command on a device named "controller"
         controller.doCommand("controller", "OFF");
-        
+
+        // Get the response of the action on the device named "controller"
+        String actionResponse = controller.getActionResponse("controller");
+        LOG.info(actionResponse);
+
         //Turn entire system on
         controller.powerSystem(SystemAction.ON);
 
