@@ -1,0 +1,35 @@
+{
+   "log_level": "DEBUG",
+   "delay": 30,
+   "devices":
+      {"vga_switch":
+          {"title": "VGA matrix switch",
+           "deviceId": "/dev/tty1",
+           "deviceType": "RS232Device",
+           "powerSequence": 1,
+           "enabled": true,
+           "nParams": {"BAUDRATE": 4800, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
+           "actions": {"ON": "0xFE, 0x0D"
+                       "OFF": "0xDE, 0x1D"}
+          },
+       "projector_front_left":
+          {"title": "NEC NP2000",
+           "deviceId": "/dev/tty2",
+           "deviceType": "RS232Device",
+           "powerSequence": 1,
+           "enabled": true,
+           "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
+           "actions": {"ON": "0x7E, 0x30, 0x31, 0x30, 0x30, 0x20, 0x31, 0x0D",
+                       "OFF": "0x7E, 0x30, 0x31, 0x30, 0x30, 0x20, 0x30, 0x0D"}
+          },
+       "controller":
+          {"title": "Controller",
+           "deviceId": "",
+           "deviceType": "SysDevice",
+           "powerSequence": 1,
+           "enabled": true,
+           "actions": {"ON": "",
+                       "OFF": "sudo shutdown -P now!"}
+          }
+   }
+}
