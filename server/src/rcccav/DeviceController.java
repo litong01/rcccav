@@ -50,6 +50,7 @@ public class DeviceController {
             device.doCommand(command);
             // Wait for the command to complete
             try { Thread.sleep(100);} catch (InterruptedException ex) {}
+            device.disconnect();
         }
     }
 

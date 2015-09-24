@@ -30,6 +30,15 @@
            "enabled": true,
            "actions": {"ON": "",
                        "OFF": "sudo shutdown -P now!"}
+          },
+       "fakedevice":
+          {"title": "TestFakeDevice",
+           "deviceId": "",
+           "deviceType": "TestDevice",
+           "powerSequence": 1,
+           "enabled": true,
+           "actions": {"ON": "On command, just a test",
+                       "OFF": "Off command, another test"}
           }
    }
 }
