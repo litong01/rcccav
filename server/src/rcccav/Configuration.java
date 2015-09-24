@@ -33,6 +33,8 @@ public class Configuration {
             JSONObject device_list = (JSONObject) this.config.get("devices");
             for (Object key: device_list.keySet()) {
                 JSONObject item = (JSONObject) device_list.get(key);
+                Boolean enabled = (Boolean) item.get("enabled");
+                if (!enabled) continue;
                 Integer seq = ((Long) item.get("powerSequence")).intValue();
                 if (this.devices.get(seq) == null) {
                     this.devices.put(seq, new ArrayList<Device>());
