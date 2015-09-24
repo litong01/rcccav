@@ -9,6 +9,7 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
+import jssc.SerialPortTimeoutException;
 
 
 public class AVDevice implements SerialPortEventListener {
@@ -31,7 +32,7 @@ public class AVDevice implements SerialPortEventListener {
     public void serialEvent(SerialPortEvent event) {
         if (event.isRXCHAR()) {
             try {
-                byte buffer[] = this.serialPort.readBytes(8);
+                byte buffer[] = this.serialPort.readBytes(8, 50);
                 for (int i=0; i < buffer.length; i++) {
                     this.actionResult += String.format("%02x", buffer[i]);
                 }
@@ -39,6 +40,8 @@ public class AVDevice implements SerialPortEventListener {
             catch (SerialPortException ex) {
                 ex.printStackTrace();
                 LOG.severe(ex.getMessage());
+            } catch (SerialPortTimeoutException ex) {
+                ex.printStackTrace();
             }
         }
         else if (event.isCTS()) {
@@ -108,6 +111,7 @@ public class AVDevice implements SerialPortEventListener {
     public void disconnect() {
         if (this.serialPort.isOpened()) {
             try {
+                this.serialPort.removeEventListener();
                 this.serialPort.closePort();
             }
             catch (SerialPortException ex) {
