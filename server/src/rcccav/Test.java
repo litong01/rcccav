@@ -1,5 +1,6 @@
 package rcccav;
 
+import java.util.Set;
 import java.util.logging.Logger;
 
 import rcccav.DeviceController.SystemAction;
@@ -14,7 +15,7 @@ public class Test {
         // Get a device controller instance by passing the configuration file
         DeviceController controller = DeviceController.getInstance(config_file);
 
-        String[] deviceNames = DeviceController.getDeviceList();
+        Set<String> deviceNames = controller.getDeviceList();
         for (String name: deviceNames) {
             LOG.info(name);
         }

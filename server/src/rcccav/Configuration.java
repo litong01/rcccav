@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
@@ -72,5 +73,9 @@ public class Configuration {
 
     public Device getDevicesByName(String name) {
         return this.deviceByName.get(name);
+    }
+    
+    public Set<String> getDeviceList() {
+        return this.deviceByName.keySet();
     }
 }
