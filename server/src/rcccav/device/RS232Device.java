@@ -67,7 +67,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
     public void serialEvent(SerialPortEvent event) {
         if (event.isRXCHAR()) {
             try {
-                byte buffer[] = this.serialPort.readBytes(8, 50);
+                byte buffer[] = this.serialPort.readBytes(1, 80);
                 for (int i=0; i < buffer.length; i++) {
                     this.actionResult += String.format("%02x", buffer[i]);
                 }

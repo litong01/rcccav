@@ -21,17 +21,18 @@ public class Test {
         }
 
         // Execute "OFF" command on a device named "controller"
-        controller.doCommand("controller", "OFF");
+        controller.doCommand("projector_front_center", "OFF");
 
         // Get the response of the action on the device named "controller"
-        String actionResponse = controller.getActionResponse("controller");
+        String actionResponse = controller.getActionResponse("projector_front_center");
         LOG.info(actionResponse);
 
         //Turn entire system on
-        controller.powerSystem(SystemAction.ON);
+        //controller.powerSystem(SystemAction.ON);
 
         //Turn entire system off
-        controller.powerSystem(SystemAction.OFF);
+        //controller.powerSystem(SystemAction.OFF);
+        try { Thread.sleep(6000);} catch (InterruptedException ex) {}
     }
 
 }

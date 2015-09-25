@@ -47,6 +47,7 @@ public class DeviceController {
     public void doCommand(String deviceName, String command) {
         Device device = this.config.getDevicesByName(deviceName);
         if (device != null) {
+            LOG.info("Device " + deviceName + " was found in the configuration");
             device.doCommand(command);
             // Wait for the command to complete
             try { Thread.sleep(100);} catch (InterruptedException ex) {}
@@ -66,6 +67,7 @@ public class DeviceController {
     public String getActionResponse(String deviceName) {
         Device device = this.config.getDevicesByName(deviceName);
         if (device != null) {
+            LOG.info("Device " + deviceName + " was found in the configuration");
             return device.getActionResult();
         }
         return "";

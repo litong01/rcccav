@@ -4,9 +4,9 @@ import jssc.SerialPortException;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortList;
+import jssc.SerialPortTimeoutException;
 
 import java.util.*;
-import java.util.TooManyListenersException;
 
 public class JSSCCmd implements SerialPortEventListener
 {
@@ -14,12 +14,13 @@ public class JSSCCmd implements SerialPortEventListener
     //static String TURNOFF   = "~0000 0\r";
     //static String GETINFO   = "~00150 1\r";
 
-    /*
-    static byte[] TURNON    = new byte[] {0x7E, 0x30, 0x31, 0x30, 0x30, 0x20, 0x31, 0x0D};
-    static byte[] TURNOFF   = new byte[] {0x7E, 0x30, 0x31, 0x30, 0x30, 0x20, 0x30, 0x0D};
-    */
-    static byte[] TURNON    = new byte[] {0x79, 0x78, 0x0D};
-    static byte[] TURNOFF   = new byte[] {0x79, 0x70, 0x70, 0x0D};
+
+    static byte[] TURNON    = new byte[] {0x7E, 0x30, 0x30, 0x30, 0x30, 0x20, 0x31, 0x0D};
+    static byte[] TURNOFF   = new byte[] {0x7E, 0x30, 0x30, 0x30, 0x30, 0x20, 0x30, 0x0D};
+    static byte[] INFO      = new byte[] {0x7E, 0x30, 0x30, 0x31, 0x35, 0x30, 0x20, 0x31, 0x0D};
+
+    //static byte[] TURNON    = new byte[] {0x79, 0x78, 0x0D};
+    //static byte[] TURNOFF   = new byte[] {0x79, 0x70, 0x70, 0x0D};
     static byte[] S1_TO_C    = new byte[] {0x67, 0x49, 0x0D};
     static byte[] S2_TO_C    = new byte[] {0x67, 0x50, 0x0D};
     static byte[] S3_TO_C    = new byte[] {0x67, 0x51, 0x0D};
@@ -39,6 +40,7 @@ public class JSSCCmd implements SerialPortEventListener
     static {
         commands.put("TURNON", TURNON);
         commands.put("TURNOFF", TURNOFF);
+        commands.put("INFO", INFO);
         commands.put("1_TO_C", S1_TO_C);
         commands.put("2_TO_C", S2_TO_C);
         commands.put("3_TO_C", S3_TO_C);
@@ -62,12 +64,12 @@ public class JSSCCmd implements SerialPortEventListener
             this.serialPort = new SerialPort(portName);
             this.serialPort.openPort();
             this.serialPort.setParams( //SerialPort.BAUDRATE_9600,
-                                      SerialPort.BAUDRATE_4800,
+                                      SerialPort.BAUDRATE_9600,
                                       SerialPort.DATABITS_8,
                                       SerialPort.STOPBITS_1,
                                       SerialPort.PARITY_NONE);
             this.serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-            
+
             System.out.println("Port opened OK");
         }
         catch (SerialPortException e) {
@@ -122,13 +124,16 @@ public class JSSCCmd implements SerialPortEventListener
         System.out.println("Got called!");
         if (event.isRXCHAR()) {
             try {
-                byte buffer[] = this.serialPort.readBytes(8);
+                byte buffer[] = this.serialPort.readBytes(1, 100);
                 for (int i=0; i < buffer.length; i++) {
                     System.out.println(String.format("%02x", buffer[i]));
                 }
             }
             catch (SerialPortException ex) {
                 System.out.println(ex);
+            }
+            catch (SerialPortTimeoutException ex) {
+                ex.printStackTrace();
             }
         }
         else if (event.isCTS()) {
