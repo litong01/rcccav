@@ -1,0 +1,14 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+# Routes for RCCC AV Controllers
+GET		/rcccav/system/:action		controllers.Application.powerSystem(action: String)
+
+GET 	/rcccav/video/:source/:output	controllers.Application.switchVideoSignal(source: String, output: String)
