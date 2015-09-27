@@ -1,4 +1,4 @@
-package rcccav;
+package models.rcccav;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import rcccav.device.Device;
+import models.rcccav.device.Device;
 
 public class Configuration {
 
@@ -40,7 +40,7 @@ public class Configuration {
                     this.devices.put(seq, new ArrayList<Device>());
                 }
                 String deviceType = (String) item.get("deviceType");
-                Class<?> deviceClass = Class.forName("rcccav.device." + deviceType);
+                Class<?> deviceClass = Class.forName("models.rcccav.device." + deviceType);
                 Constructor<?> ctor = deviceClass.getConstructor(JSONObject.class);
                 Device device = (Device) ctor.newInstance(item);
                 this.devices.get(seq).add(device);

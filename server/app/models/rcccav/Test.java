@@ -1,9 +1,9 @@
-package rcccav;
+package models.rcccav;
 
 import java.util.Set;
 import java.util.logging.Logger;
 
-import rcccav.DeviceController.SystemAction;
+import models.rcccav.DeviceController.SystemAction;
 
 public class Test {
     private static final Logger LOG = Logger.getLogger(Test.class.getName());

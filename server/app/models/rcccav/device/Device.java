@@ -1,4 +1,4 @@
-package rcccav.device;
+package models.rcccav.device;
 
 import org.json.simple.JSONObject;
 

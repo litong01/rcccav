@@ -1,4 +1,4 @@
-package rcccav.device;
+package models.rcccav.device;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -26,7 +26,7 @@ public class SysDevice extends Device {
                 ex.printStackTrace();
                 LOG.severe(ex.getMessage());
             }
-            System.exit(0);
+            if (cmd == "OFF") System.exit(0);
         }
     }
 
