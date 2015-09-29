@@ -1,7 +1,7 @@
 package models.rcccav.device;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
+import play.Logger;
 
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
@@ -14,7 +14,6 @@ import org.json.simple.JSONObject;
 
 public class RS232Device extends Device implements SerialPortEventListener{
 
-    private static final Logger LOG = Logger.getLogger(RS232Device.class.getName());
     private SerialPort serialPort = null;
 
     public RS232Device(JSONObject spec) {
@@ -43,14 +42,14 @@ public class RS232Device extends Device implements SerialPortEventListener{
                 this.initDevice();
                 byte[] action = this.getCmdByte(cmd);
                 this.serialPort.writeBytes(action);
-                LOG.info(this.setting.title + " is now " + cmd);
+                Logger.info(this.setting.title + " is now " + cmd);
             }
             else {
-                LOG.info(this.setting.title + " does not support command " + cmd);
+                Logger.info(this.setting.title + " does not support command " + cmd);
             }
         }
         catch (Exception ex) {
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
     }
 
@@ -63,7 +62,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
             }
             catch (SerialPortException ex) {
                 ex.printStackTrace();
-                LOG.severe(ex.getMessage());
+                Logger.error(ex.getMessage());
             }
         }
     }
@@ -78,25 +77,25 @@ public class RS232Device extends Device implements SerialPortEventListener{
             }
             catch (SerialPortException ex) {
                 ex.printStackTrace();
-                LOG.severe(ex.getMessage());
+                Logger.error(ex.getMessage());
             } catch (SerialPortTimeoutException ex) {
-                LOG.info("Not more data to read!");
+                Logger.info("Not more data to read!");
             }
         }
         else if (event.isCTS()) {
             if(event.getEventValue() == 1){//If line is ON
-                LOG.info("CTS - ON");
+                Logger.info("CTS - ON");
             }
             else {
-                LOG.info("CTS - OFF");
+                Logger.info("CTS - OFF");
             }
         }
         else if (event.isDSR()) {
             if(event.getEventValue() == 1){//If line is ON
-                LOG.info("DSR - ON");
+                Logger.info("DSR - ON");
             }
             else {
-                LOG.info("DSR - OFF");
+                Logger.info("DSR - OFF");
             }
         }
     }
@@ -115,7 +114,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
         }
         catch (SerialPortException ex) {
             ex.printStackTrace();
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
         this.initListener();
     }
@@ -124,11 +123,11 @@ public class RS232Device extends Device implements SerialPortEventListener{
     {
         try {
             this.serialPort.addEventListener(this);
-            LOG.info("Port listener added successfully!");
+            Logger.info("Port listener added successfully!");
         }
         catch (SerialPortException ex) {
             ex.printStackTrace();
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
     }
 }

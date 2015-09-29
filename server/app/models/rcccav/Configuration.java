@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.logging.Logger;
+import play.Logger;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,7 +17,6 @@ import models.rcccav.device.Device;
 
 public class Configuration {
 
-    private static final Logger LOG = Logger.getLogger(Configuration.class.getName());
     private JSONObject config = null;
     private HashMap<Integer, ArrayList<Device>> devices = null;
     private HashMap<String, Device> deviceByName = new HashMap<String, Device>();
@@ -49,19 +48,19 @@ public class Configuration {
         }
         catch (FileNotFoundException ex) {
             ex.printStackTrace();
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
         catch (IOException ex) {
             ex.printStackTrace();
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
         catch (ParseException ex) {
             ex.printStackTrace();
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
         catch (Exception ex) {
             ex.printStackTrace();
-            LOG.severe(ex.getMessage());
+            Logger.error(ex.getMessage());
         }
     }
 

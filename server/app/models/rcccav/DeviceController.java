@@ -2,7 +2,7 @@ package models.rcccav;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.logging.Logger;
+import play.Logger;
 
 import jssc.SerialPortList;
 
@@ -10,7 +10,6 @@ import models.rcccav.device.Device;
 
 public class DeviceController {
 
-    private static final Logger LOG = Logger.getLogger(DeviceController.class.getName());
     private static final int LEVELS_SUPPORTED = 10;
     private static DeviceController instance = null;
     private Configuration config = null;
@@ -47,7 +46,7 @@ public class DeviceController {
     public void doCommand(String deviceName, String command) {
         Device device = this.config.getDevicesByName(deviceName);
         if (device != null) {
-            LOG.info("Device " + deviceName + " was found in the configuration");
+            Logger.info("Device " + deviceName + " was found in the configuration");
             device.doCommand(command);
             // Wait for the command to complete
             try { Thread.sleep(100);} catch (InterruptedException ex) {}
@@ -67,7 +66,7 @@ public class DeviceController {
     public String getActionResponse(String deviceName) {
         Device device = this.config.getDevicesByName(deviceName);
         if (device != null) {
-            LOG.info("Device " + deviceName + " was found in the configuration");
+            Logger.info("Device " + deviceName + " was found in the configuration");
             return device.getActionResult();
         }
         return "";
@@ -115,7 +114,7 @@ public class DeviceController {
                     Thread.sleep(sleeptime * 1000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
-                    LOG.severe(ex.getMessage());
+                    Logger.error(ex.getMessage());
                 }
             }
             start += increase;

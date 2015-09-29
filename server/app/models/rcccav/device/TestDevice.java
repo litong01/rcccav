@@ -1,13 +1,11 @@
 package models.rcccav.device;
 
-import java.util.logging.Logger;
+import play.Logger;
 
 import org.json.simple.JSONObject;
 
 
 public class TestDevice extends Device {
-
-    private static final Logger LOG = Logger.getLogger(TestDevice.class.getName());
 
     public TestDevice(JSONObject spec) {
         this.spec = spec;
@@ -20,7 +18,7 @@ public class TestDevice extends Device {
         if (cmdStr != null && cmdStr.length() > 0) {
             this.actionResult += String.format("Command %s excuted on device %s",
                     cmdStr, this.setting.title);
-            LOG.info(this.actionResult);
+            Logger.info(this.actionResult);
         }
     }
 
@@ -28,7 +26,7 @@ public class TestDevice extends Device {
     public void disconnect() {
         String s = String.format("Device %s has been now disconnected.",
                this.setting.title);
-        LOG.info(s);
+        Logger.info(s);
     }
 
 }

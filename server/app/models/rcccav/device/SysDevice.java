@@ -1,14 +1,12 @@
 package models.rcccav.device;
 
 import java.io.IOException;
-import java.util.logging.Logger;
+import play.Logger;
 
 import org.json.simple.JSONObject;
 
 
 public class SysDevice extends Device {
-
-    private static final Logger LOG = Logger.getLogger(SysDevice.class.getName());
 
     public SysDevice(JSONObject spec) {
         this.spec = spec;
@@ -24,7 +22,7 @@ public class SysDevice extends Device {
                 runtime.exec(cmdStr);
             } catch (IOException ex) {
                 ex.printStackTrace();
-                LOG.severe(ex.getMessage());
+                Logger.error(ex.getMessage());
             }
             if (cmd == "OFF") System.exit(0);
         }
