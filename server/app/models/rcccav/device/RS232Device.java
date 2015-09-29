@@ -76,7 +76,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
                 ex.printStackTrace();
                 LOG.severe(ex.getMessage());
             } catch (SerialPortTimeoutException ex) {
-                ex.printStackTrace();
+                LOG.info("Not more data to read!");
             }
         }
         else if (event.isCTS()) {
