@@ -35,8 +35,8 @@ public class Application extends Controller {
      * @return Action result.
      */
     public Result switchVideoSignal(String source, String output){
-        this.controller.doCommand(deviceName, command);
-        String results = this.controller.getActionResponse(deviceName);
+        this.controller.doCommand(source, output);
+        String results = this.controller.getActionResponse(source);
         return ok("Switching video signal from " + source + " to " + output +
                   ". Results are " + results);
     }
