@@ -62,10 +62,10 @@
           {"title": "Controller",
            "deviceId": "",
            "deviceType": "SysDevice",
-           "powerSequence": 2,
-           "enabled": false,
+           "powerSequence": 1,
+           "enabled": true,
            "actions": {"ON": "",
-                       "OFF": "sudo shutdown -P now!"}
+                       "OFF": "shutdown -P now"}
           },
        "vga_matrix_switch":
           {"title": "VGA 4x4 Matrix Switch",

@@ -19,12 +19,17 @@ public class SysDevice extends Device {
         if (cmdStr != null && cmdStr.length() > 0) {
             Runtime runtime = Runtime.getRuntime();
             try {
-                runtime.exec(cmdStr);
+                Logger.info("Ready to execute shell command " + cmdStr);
+                Process proc = runtime.exec(cmdStr);
+                proc.waitFor();
+                Logger.info("Shell command " + cmdStr + " executed successfully!");
             } catch (IOException ex) {
                 ex.printStackTrace();
                 Logger.error(ex.getMessage());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Logger.error(e.getMessage());
             }
-            if (cmd == "OFF") System.exit(0);
         }
     }
 
