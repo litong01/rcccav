@@ -10,6 +10,7 @@ import models.rcccav.*;
 
 public class Application extends Controller {
     private DeviceController controller = DeviceController.getInstance("conf/avconfig.json");
+    private boolean command_done = true;
 
     public Result index() {
         return ok("Welcome to RCCC AV!");
@@ -21,11 +22,17 @@ public class Application extends Controller {
      * @return Action result.
      */
     public Result powerSystem(String action){
-        Logger.debug("in powerSystem... action = " + action);
-        this.controller.powerSystem(DeviceController.SystemAction.valueOf(action));
-        Logger.debug("finished call DeviceController.");
-        return ok("System " + action + " succeeds");
-
+        if (this.command_done) {
+            this.command_done = false;
+            Logger.debug("in powerSystem... action = " + action);
+            this.controller.powerSystem(DeviceController.SystemAction.valueOf(action));
+            Logger.debug("finished call DeviceController.");
+            this.command_done = true;
+            return ok("System " + action + " succeeds");
+        }
+        else {
+            return ok("Previous command is still going! Try again in few seconds.");
+        }
     }
 
     /**
@@ -35,9 +42,16 @@ public class Application extends Controller {
      * @return Action result.
      */
     public Result switchVideoSignal(String source, String output){
-        this.controller.doCommand(source, output);
-        String results = this.controller.getActionResponse(source);
-        return ok("Switching video signal from " + source + " to " + output +
-                  ". Results are " + results);
+        if (this.command_done) {
+            this.command_done = false;
+            this.controller.doCommand(source, output);
+            String results = this.controller.getActionResponse(source);
+            this.command_done = true;
+            return ok("Switching video signal from " + source + " to " +
+                      output + ". Results are " + results);
+        }
+        else {
+            return ok("Previous command is still going! Try again in few seconds.");
+        }
     }
 }

@@ -43,6 +43,10 @@ public class RS232Device extends Device implements SerialPortEventListener{
                 this.initDevice();
                 byte[] action = this.getCmdByte(cmd);
                 this.serialPort.writeBytes(action);
+                LOG.info(this.setting.title + " is now " + cmd);
+            }
+            else {
+                LOG.info(this.setting.title + " does not support command " + cmd);
             }
         }
         catch (Exception ex) {
