@@ -1,11 +1,9 @@
 package controllers;
 
-import org.json.simple.JSONObject;
-
-import play.*;
-import play.mvc.*;
-import views.html.*;
-import models.rcccav.*;
+import play.Logger;
+import play.mvc.Controller;
+import play.mvc.Result;
+import models.rcccav.DeviceController;
 
 
 public class Application extends Controller {
@@ -22,6 +20,7 @@ public class Application extends Controller {
      * @return Action result.
      */
     public Result powerSystem(String action){
+        Logger.info(this.getClass().getSuperclass().getName());
         if (this.command_done) {
             this.command_done = false;
             Logger.debug("in powerSystem... action = " + action);

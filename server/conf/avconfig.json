@@ -184,8 +184,8 @@
            "deviceType": "TestDevice",
            "powerSequence": 2,
            "enabled": true,
-           "actions": {"ON": "On command, just a test",
-                       "OFF": "Off command, another test"}
+           "actions": {"ON": "FakeDevice On command!",
+                       "OFF": "FakeDevice Off command!"}
           }
    }
 }
