@@ -4,12 +4,12 @@
    "devices":
       {"projector_front_left":
           {"title": "NEC NP2000 - Front Left",
-           "comment": "Connect to the 1st port of SIIG",
+           "comment": "Connect to the 1st port of SIIG, projector baud rate has to be set to 9600 from its menu.",
            "deviceId": "/dev/ttyUSB0",
            "deviceType": "RS232Device",
            "powerSequence": 2,
            "enabled": false,
-           "nParams": {"BAUDRATE": 38400, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
+           "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x02, 0x00, 0x00, 0x00, 0x00, 0x02",
                        "OFF": "0x02, 0x01, 0x00, 0x00, 0x00, 0x03",
                        "MUTE_OFF": "0x02, 0x11, 0x00, 0x00, 0x00, 0x13",
@@ -32,12 +32,12 @@
           },
        "projector_front_right":
           {"title": "NEC NP2000 - Front Right",
-           "comment": "Connect to the 3rd port of SIIG",
+           "comment": "Connect to the 3rd port of SIIG, projector baud rate has to be set to 9600 from its menu.",
            "deviceId": "/dev/ttyUSB2",
            "deviceType": "RS232Device",
            "powerSequence": 2,
            "enabled": false,
-           "nParams": {"BAUDRATE": 38400, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
+           "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x02, 0x00, 0x00, 0x00, 0x00, 0x02",
                        "OFF": "0x02, 0x01, 0x00, 0x00, 0x00, 0x03",
                        "MUTE_OFF": "0x02, 0x11, 0x00, 0x00, 0x00, 0x13",
@@ -45,18 +45,18 @@
                        "INFO": "0x00, 0xBF, 0x00, 0x00, 0x01, 0x02, 0xC2"}
           },
        "projector_back_center":
-          {"title": "XXXX Unknown",
-           "comment": "Connect to the 3nd port of SIIG",
+          {"title": "NEC NP-M300XS",
+           "comment": "Connect to the 3nd port of SIIG, projector baud rate has to be set to 9600 from its menu.",
            "deviceId": "/dev/ttyUSB3",
            "deviceType": "RS232Device",
            "powerSequence": 2,
            "enabled": false,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
-           "actions": {"ON": "0x7E, 0x30, 0x30, 0x30, 0x30, 0x20, 0x31, 0x0D",
-                       "OFF": "0x7E, 0x30, 0x30, 0x30, 0x30, 0x20, 0x30, 0x0D",
-                       "MUTE_OFF": "0x7E, 0x30, 0x30, 0x38, 0x30, 0x20, 0x30, 0x0D",
-                       "MUTE_ON": "0x7E, 0x30, 0x30, 0x38, 0x30, 0x20, 0x31, 0x0D",
-                       "INFO": "0x7E, 0x30, 0x30, 0x31, 0x35, 0x30, 0x20, 0x31, 0x0D"}
+           "actions": {"ON": "0x02, 0x00, 0x00, 0x00, 0x00, 0x02",
+                       "OFF": "0x02, 0x01, 0x00, 0x00, 0x00, 0x03",
+                       "MUTE_OFF": "0x02, 0x11, 0x00, 0x00, 0x00, 0x13",
+                       "MUTE_ON": "0x02, 0x10, 0x00, 0x00, 0x00, 0x12",
+                       "INFO": "0x00, 0xBF, 0x00, 0x00, 0x01, 0x02, 0xC2"}
           },
        "controller":
           {"title": "Controller",
