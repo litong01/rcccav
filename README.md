@@ -16,7 +16,7 @@ To produce a distribution, run the following command:
 The above command will produce a distribution of the application in the
 following directory:
 
-    target/universal/rcccav-1.0-SNAPSHOT.zip
+    target/universal/rcccav-1.0.zip
     
 This file can be downloaded, then unzip. To run the service in the production
 mode, simply run bin/rcccav from command line.
