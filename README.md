@@ -33,3 +33,23 @@ target directory. Then you can simply run the following command to install
 it to a brand new machine after you download that file.
 
     sudo dpkg -i rcccav_1.0_all.deb
+
+To remove the service, run the following command:
+
+    sudo apt-get purge --auto-remove rcccav
+    
+To run the service at port 80 instead of port 9000, change the following file:
+
+    /etc/init/rcccav.conf
+    
+Make this line at the end of the file:
+
+    exec sudo -u root bin/rcccav
+
+Like this line:
+
+    exec sudo -u root bin/rcccav -Dhttp.port=80
+
+To start/stop the service simply run the following command
+
+    sudo service rcccav start or stop
