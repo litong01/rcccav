@@ -7,7 +7,7 @@ import models.rcccav.DeviceController;
 
 
 public class Application extends Controller {
-    private DeviceController controller = DeviceController.getInstance("conf/avconfig.json");
+    private DeviceController controller = DeviceController.getInstance("./conf/avconfig.json");
     private boolean command_done = true;
 
     public Result index() {
