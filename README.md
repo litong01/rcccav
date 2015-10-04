@@ -37,19 +37,9 @@ it to a brand new machine after you download that file.
 To remove the service, run the following command:
 
     sudo apt-get purge --auto-remove rcccav
-    
-To run the service at port 80 instead of port 9000, change the following file:
-
-    /etc/init/rcccav.conf
-    
-Make this line at the end of the file:
-
-    exec sudo -u root bin/rcccav
-
-Like this line:
-
-    exec sudo -u root bin/rcccav -Dhttp.port=80
 
 To start/stop the service simply run the following command
 
     sudo service rcccav start or stop
+
+The service has now been configured to run at port 80 by default
