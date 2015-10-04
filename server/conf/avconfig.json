@@ -70,7 +70,7 @@
        "vga_matrix_switch":
           {"title": "VGA 4x4 Matrix Switch",
            "comment": "Connect to the 7th port of SIIG",
-           "deviceId": "/dev/ttyUSB06",
+           "deviceId": "/dev/ttyUSB6",
            "deviceType": "RS232Device",
            "powerSequence": 2,
            "enabled": true,

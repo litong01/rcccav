@@ -60,7 +60,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
             try {
                 this.serialPort.removeEventListener();
                 this.serialPort.closePort();
-                Logger.info("Device " + this.setting.title + " is not disconnected!");
+                Logger.info("Device " + this.setting.title + " is now disconnected!");
             }
             catch (SerialPortException ex) {
                 ex.printStackTrace();
