@@ -21,8 +21,7 @@
   -->
 
   <logger name="play" level="ERROR" />
-  <logger name="controllers" level="DEBUG" />
-  <logger name="models.rcccav" level="DEBUG" />
+  <logger name="application" level="DEBUG" />
 
   <root level="ERROR">
     <appender-ref ref="STDOUT" />
