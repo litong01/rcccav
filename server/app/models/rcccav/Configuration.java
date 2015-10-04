@@ -26,8 +26,8 @@ public class Configuration {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader(config_file));
             String curDir = System.getProperty("user.dir");
-            Logger.debug("current directory is " + curDir);
-            Logger.debug("Configuration file avconfig.son was loaded successfully!");
+            Logger.info("Current working directory: " + curDir);
+            Logger.info("Configuration file " + config_file + " was loaded successfully!");
             this.config = (JSONObject) obj;
 
             this.devices = new HashMap<Integer, ArrayList<Device>>(3);
@@ -37,6 +37,7 @@ public class Configuration {
                 JSONObject item = (JSONObject) device_list.get(key);
                 Boolean enabled = (Boolean) item.get("enabled");
                 if (!enabled) continue;
+                Logger.info("Start instance for device " + (String) key);
                 Integer seq = ((Long) item.get("powerSequence")).intValue();
                 if (this.devices.get(seq) == null) {
                     this.devices.put(seq, new ArrayList<Device>());
@@ -48,6 +49,7 @@ public class Configuration {
                 this.devices.get(seq).add(device);
                 this.deviceByName.put((String) key, device);
             }
+            Logger.info("Configuration finished successfully!");
         }
         catch (FileNotFoundException ex) {
             ex.printStackTrace();

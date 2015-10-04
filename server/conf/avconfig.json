@@ -73,7 +73,7 @@
            "deviceId": "/dev/ttyUSB06",
            "deviceType": "RS232Device",
            "powerSequence": 2,
-           "enabled": false,
+           "enabled": true,
            "nParams": {"BAUDRATE": 4800, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x4F, 0x4E, 0x0D",
                        "OFF": "0x4F, 0x46, 0x46, 0x0D",

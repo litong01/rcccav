@@ -38,6 +38,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
     public void doCommand(String cmd) {
         try {
             if (this.setting.actions.containsKey(cmd)) {
+                Logger.info("Ready to execute command: " + cmd);
                 this.actionResult = "";
                 this.initDevice();
                 byte[] action = this.getCmdByte(cmd);
@@ -59,6 +60,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
             try {
                 this.serialPort.removeEventListener();
                 this.serialPort.closePort();
+                Logger.info("Device " + this.setting.title + " is not disconnected!");
             }
             catch (SerialPortException ex) {
                 ex.printStackTrace();
@@ -103,6 +105,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
     private void initDevice()
     {
         try {
+            Logger.info("Start initialize device " + this.setting.title);
             this.serialPort = new SerialPort(this.setting.deviceId);
             this.serialPort.openPort();
             HashMap<String, Integer> settings = this.setting.nParams;
@@ -111,6 +114,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
                                       settings.get("STOPBITS"),
                                       settings.get("PARITY"));
             this.serialPort.setFlowControlMode(settings.get("FLOWCONTROL"));
+            Logger.info(this.setting.title + " is now initialized!");
         }
         catch (SerialPortException ex) {
             ex.printStackTrace();

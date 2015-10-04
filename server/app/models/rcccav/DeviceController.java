@@ -28,9 +28,10 @@ public class DeviceController {
      * to be a singleton in the system.
      */
     public static DeviceController getInstance(String config_file) {
-        Logger.debug("Getting instance based on configuration file " + config_file);
+        Logger.info("Getting instance based on configuration file " + config_file);
         if (instance == null) {
             instance = new DeviceController(config_file);
+            Logger.info("DeviceController instance was created successfully!");
         }
         return instance;
     }
@@ -53,6 +54,9 @@ public class DeviceController {
             try { Thread.sleep(100);} catch (InterruptedException ex) {}
             device.disconnect();
         }
+        else {
+            Logger.info("Device " + deviceName + " was not found!");
+        }
     }
 
     public Set<String> getDeviceList() {
@@ -69,6 +73,9 @@ public class DeviceController {
         if (device != null) {
             Logger.info("Device " + deviceName + " was found in the configuration");
             return device.getActionResult();
+        }
+        else {
+            Logger.info("Device " + deviceName + " was not found or may not be enabled!");
         }
         return "";
     }
