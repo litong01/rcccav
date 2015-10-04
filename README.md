@@ -9,7 +9,7 @@ The above command will start the server on any nic and at port 80. This
 command will only be suitable for development.
 
 
-To produce a distribution, run the following command:
+For distribution for any platform, run the following command:
 
     ./activator dist
 
@@ -21,7 +21,14 @@ following directory:
 This file can be downloaded, then unzip. To run the service in the production
 mode, simply run bin/rcccav from command line.
 
-    bin/rcccav -Dhttp.address=0.0.0.0 -Dhttp.port=80
+    bin/rcccav
+
+The above command will start up the AV system at port 80. You can also choose
+to run the command with -d option to run it in debug mode like this:
+
+    bin/rcccav -d
+
+For production:
 
 To build a Ubuntu native package so that it can be installed as a Ubuntu
 service, run the following command:
@@ -43,3 +50,17 @@ To start/stop the service simply run the following command
     sudo service rcccav start or stop
 
 The service has now been configured to run at port 80 by default
+
+
+For development:
+
+Run the following command to build:
+
+    ./activate clean stage
+
+Go to target/universal/stage directory, then run the following command:
+
+    bin/rcccav -d
+
+The above command will run rcccav project in debug mode and produce log
+files in stage/logs directory.
