@@ -28,6 +28,7 @@ public class DeviceController {
      * to be a singleton in the system.
      */
     public static DeviceController getInstance(String config_file) {
+        Logger.debug("Getting instance based on configuration file " + config_file);
         if (instance == null) {
             instance = new DeviceController(config_file);
         }

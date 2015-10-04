@@ -25,6 +25,9 @@ public class Configuration {
         try {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader(config_file));
+            String curDir = System.getProperty("user.dir");
+            Logger.debug("current directory is " + curDir);
+            Logger.debug("Configuration file avconfig.son was loaded successfully!");
             this.config = (JSONObject) obj;
 
             this.devices = new HashMap<Integer, ArrayList<Device>>(3);
