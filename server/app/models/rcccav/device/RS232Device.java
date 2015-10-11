@@ -39,17 +39,18 @@ public class RS232Device extends Device implements SerialPortEventListener{
         try {
             if (this.setting.actions.containsKey(cmd)) {
                 Logger.info("Ready to execute command: " + cmd);
-                this.actionResult = "";
+                this.actionResult = this.setting.title + ":";
                 this.initDevice();
                 byte[] action = this.getCmdByte(cmd);
                 this.serialPort.writeBytes(action);
-                Logger.info(this.setting.title + " is now " + cmd);
+                Logger.info(this.setting.title + " executed " + cmd + " request successfully!");
             }
             else {
                 Logger.info(this.setting.title + " does not support command " + cmd);
             }
         }
         catch (Exception ex) {
+            this.actionResult = this.setting.title + ex.getMessage();
             Logger.error(ex.getMessage());
         }
     }

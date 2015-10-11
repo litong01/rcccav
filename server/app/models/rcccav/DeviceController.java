@@ -86,22 +86,23 @@ public class DeviceController {
      * @return the result of the action
      */
     public String powerSystem(SystemAction action) {
+        String results = "";
         switch (action) {
         case ON:
-            this.doOnOff("ON");
+            results = this.doOnOff("ON");
             break;
         case OFF:
-            this.doOnOff("OFF");
+            results = this.doOnOff("OFF");
             break;
         case REBOOT:
             break;
         case FORCE_OFF:
             break;
         }
-        return "";
+        return results;
     }
 
-    private void doOnOff(String cmd) {
+    private String doOnOff(String cmd) {
         int start, increase;
         if (cmd == "ON") {
             start = 1; increase = 1;
@@ -111,11 +112,13 @@ public class DeviceController {
         }
 
         //We only support up to LEVELS_SUPPORTED levels of delays
+        String results = "";
         for (int index=0; index<=LEVELS_SUPPORTED; index++) {
             ArrayList<Device> devices = this.config.getDevicesBySequence(start);
             if (devices != null) {
                 for (Device device: devices) {
                     device.doCommand(cmd);
+                    results += device.getActionResult() + "\n";
                 }
                 try {
                     int sleeptime = ((Long)this.config.getConfig().get("delay")).intValue();
@@ -127,6 +130,7 @@ public class DeviceController {
             }
             start += increase;
         }
+        return results;
     }
 
     /**

@@ -24,10 +24,10 @@ public class Application extends Controller {
         if (this.command_done) {
             this.command_done = false;
             Logger.debug("in powerSystem... action = " + action);
-            this.controller.powerSystem(DeviceController.SystemAction.valueOf(action));
+            String results = this.controller.powerSystem(DeviceController.SystemAction.valueOf(action));
             Logger.debug("finished call DeviceController.");
             this.command_done = true;
-            return ok("System " + action + " succeeds");
+            return ok(results);
         }
         else {
             return ok("Previous command is still going! Try again in few seconds.");
