@@ -76,8 +76,8 @@ public class DeviceController {
         }
         else {
             Logger.info("Device " + deviceName + " was not found or may not be enabled!");
+            return "Device " + deviceName + " was not found or may not be enabled!";
         }
-        return "";
     }
 
     /**
@@ -118,7 +118,7 @@ public class DeviceController {
             if (devices != null) {
                 for (Device device: devices) {
                     device.doCommand(cmd);
-                    results += device.getActionResult() + "\n";
+                    results += device.getActionResult() + "<br/>";
                 }
                 try {
                     int sleeptime = ((Long)this.config.getConfig().get("delay")).intValue();

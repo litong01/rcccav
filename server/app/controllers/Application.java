@@ -47,8 +47,8 @@ public class Application extends Controller {
             this.controller.doCommand(source, output);
             String results = this.controller.getActionResponse(source);
             this.command_done = true;
-            return ok("Switching video signal from " + source + " to " +
-                      output + ". Results are " + results);
+            return ok("Perform video switch on device: " + source + ". Action: " +
+                      output + ".<br/>Results: " + results);
         }
         else {
             return ok("Previous command is still going! Try again in few seconds.");

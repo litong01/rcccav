@@ -2,13 +2,62 @@
 
 @main("Welcome to RCCC Audio/Video System!") {
 
-<form name="myform" action="/" method="POST">
-<div align="center">
-<br /><br />
-<input type="button" onclick="turnSystem('results', 'On');"  value="ON">&nbsp;&nbsp;
-<input type="button" onclick="turnSystem('results', 'Off');" value="OFF"><br>
+<div>
+  <div align="center">
+    <div class="system_onoff_box">
+      <input type="button" onclick="turnSystem('results', 'On');"  value="ON" class="onoffbutton">
+      <input type="button" onclick="turnSystem('results', 'Off');" value="OFF" class="onoffbutton">
+    </div>
+    <div class="v_selection_box">
+      <span class="projectors">FRONT RIGHT, FRONT LEFT and BACK PROJECTOR</span><br />
+      <input type="radio" name="group1_projectors" value="mac" onclick="switchInput('results', 'G1', 'mac');">
+        <span class="inputNames">Mac Computer</span>
+      </input>&nbsp;
+      <input type="radio" name="group1_projectors" value="podium" onclick="switchInput('results', 'G1', 'podium');">
+        <span class="inputNames">Podium</span>
+      </input>&nbsp;
+      <input type="radio" name="group1_projectors" value="camcorder" onclick="switchInput('results', 'G1', 'camcorder');">
+        <span class="inputNames">Camcorder</span>
+      </input>
+    </div>
+    <div class="v_selection_box">
+      <span class="projectors">FRONT CENTER PROJECTOR</span><br />
+      <input type="radio" name="group2_projectors" value="mac" onclick="switchInput('results', 'G2', 'mac');">
+        <span class="inputNames">Mac Computer</span>
+      </input>&nbsp;
+      <input type="radio" name="group2_projectors" value="podium" onclick="switchInput('results', 'G2', 'podium');">
+        <span class="inputNames">Podium</span>
+      </input>&nbsp;
+      <input type="radio" name="group2_projectors" value="camcorder" onclick="switchInput('results', 'G2', 'camcorder');">
+        <span class="inputNames">Camcorder</span>
+      </input>
+    </div>
+    <div class="v_selection_box">
+      <span class="projectors">RCCC CCTV CHANNEL #1</span><br />
+      <input type="radio" name="group3_projectors" value="mac" onclick="switchInput('results', 'G3', 'mac');">
+        <span class="inputNames">Mac Computer</span>
+      </input>&nbsp;
+      <input type="radio" name="group3_projectors" value="podium" onclick="switchInput('results', 'G3', 'podium');">
+        <span class="inputNames">Podium</span>
+      </input>&nbsp;
+      <input type="radio" name="group3_projectors" value="camcorder" onclick="switchInput('results', 'G3', 'camcorder');">
+        <span class="inputNames">Camcorder</span>
+      </input>
+    </div>
+    <div class="v_selection_box">
+      <span class="projectors">RCCC CCTV CHANNEL #2</span><br />
+      <input type="radio" name="group4_projectors" value="mac" onclick="switchInput('results', 'G4', 'mac');">
+        <span class="inputNames">Mac Computer</span>
+      </input>&nbsp;
+      <input type="radio" name="group4_projectors" value="podium" onclick="switchInput('results', 'G4', 'podium');">
+        <span class="inputNames">Podium</span>
+      </input>&nbsp;
+      <input type="radio" name="group4_projectors" value="camcorder" onclick="switchInput('results', 'G4', 'camcorder');">
+        <span class="inputNames">Camcorder</span>
+      </input>
+    </div>
+  </div>
+  <div id="results" class="results" />
 </div>
-<div id="results"></div>
-</form>
 
 }
