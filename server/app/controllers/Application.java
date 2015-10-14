@@ -3,6 +3,7 @@ package controllers;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
+
 import models.rcccav.DeviceController;
 
 
@@ -11,7 +12,7 @@ public class Application extends Controller {
     private boolean command_done = true;
 
     public Result index() {
-        return ok("Welcome to RCCC AV!");
+        return ok(views.html.index.render("Something"));
     }
 
     /**

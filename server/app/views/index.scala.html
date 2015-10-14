@@ -1,7 +1,14 @@
 @(message: String)
 
-@main("Welcome to Play") {
+@main("Welcome to RCCC Audio/Video System!") {
 
-    @play20.welcome(message, style = "Java")
+<form name="myform" action="/" method="POST">
+<div align="center">
+<br /><br />
+<input type="button" onclick="turnSystem('results', 'On');"  value="ON">&nbsp;&nbsp;
+<input type="button" onclick="turnSystem('results', 'Off');" value="OFF"><br>
+</div>
+<div id="results"></div>
+</form>
 
 }

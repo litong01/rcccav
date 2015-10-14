@@ -1,6 +1,6 @@
 {
    "log_level": "DEBUG",
-   "delay": 30,
+   "delay": 7,
    "devices":
       {"projector_front_left":
           {"title": "NEC NP2000 - Front Left",
