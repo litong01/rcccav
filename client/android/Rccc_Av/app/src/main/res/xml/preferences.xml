@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Settings">
+        <EditTextPreference
+            android:key="hostIP_preference"
+            android:title="Controller Host IP"
+            android:summary="Controller Host IP"
+            android:dialogTitle="Enter Controller Host IP" />
+
+        <EditTextPreference
+            android:key="network_preference"
+            android:title="Network Broadcast Address"
+            android:summary="Network Broadcast Address"
+            android:dialogTitle="Enter Network Broadcast Address" />
+
+        <EditTextPreference
+            android:key="mac_preference"
+            android:title="Controller MAC Address"
+            android:summary="Controller MAC Address"
+            android:dialogTitle="Enter MAC Address of the Controller" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
