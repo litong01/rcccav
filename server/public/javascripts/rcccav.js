@@ -4,6 +4,11 @@ if (window.console) {
 
 function turnSystem(resultDiv, cmd) {
 
+  var ret = confirm("Are you sure you want to turn entire system " + cmd + "?");
+  if (ret != true) {
+    return;
+  }
+
   $.ajax({
       url: '/rcccav/system/' + cmd.toUpperCase(),
       type: 'get',
@@ -45,7 +50,7 @@ function switchInput(resultDiv, group, source) {
     var OUTPUTS = {G1: 'A', G2: 'B', G3: 'C', G4: 'D'}
     var action = 'S' + INPUTS[source] + '_' + OUTPUTS[group];
     console.log(action);
-  $.ajax({
+    $.ajax({
       url: '/rcccav/video/vga_matrix_switch/' + action,
       type: 'get',
       headers: {},
@@ -57,6 +62,28 @@ function switchInput(resultDiv, group, source) {
         console.log(data);
         $('#' + resultDiv).html(data);
       }
-  });
+    });
 
+}
+
+function doCommand(resultDiv) {
+    var projector = $('input:radio[name=projectors]:checked').val();
+    var action = $('input:radio[name=projector_actions]:checked').val();
+    console.log(projector);
+    console.log(action);
+    
+    //Now ready to send the command.
+    $.ajax({
+      url: '/rcccav/video/' + projector + '/' + action.toUpperCase(),
+      type: 'get',
+      headers: {},
+      success: function( data ) {
+        console.log(data);
+        $('#' + resultDiv).html(data);
+      },
+      error: function(data) {
+        console.log(data);
+        $('#' + resultDiv).html(data);
+      }
+    });
 }
