@@ -5,8 +5,8 @@
 <div>
   <div align="center">
     <div class="v_selection_box">
-      <input type="button" onclick="turnSystem('results', 'On');"  value="ON" class="onoffbutton">
-      <input type="button" onclick="turnSystem('results', 'Off');" value="OFF" class="onoffbutton">
+      <input type="button" onclick="turnSystem('results', 'On');"  value="ON" class="systembutton">
+      <input type="button" onclick="turnSystem('results', 'Off');" value="OFF" class="systembutton">
     </div>
     <div class="v_selection_box">
       <span class="projectors">FRONT RIGHT, FRONT LEFT and BACK PROJECTOR</span><br />
@@ -57,7 +57,7 @@
       </input>
     </div>
     <div class="v_selection_box">
-      <span class="projectors">PROJECTOR ACTION</span><br />
+      <span class="projectors">PROJECTOR ACTIONS</span><br />
       <input type="radio" name="projectors" value="projector_front_left" checked="checked">
         <span class="inputNames">Front Left</span>
       </input>&nbsp;
@@ -69,7 +69,7 @@
       </input>&nbsp;
       <input type="radio" name="projectors" value="projector_back_center">
         <span class="inputNames">Back</span>
-      </input><br/><br/>
+      </input><br/>
       <input type="radio" name="projector_actions" value="ON" checked="checked">
         <span class="inputNames">On</span>
       </input>&nbsp;
@@ -77,11 +77,11 @@
         <span class="inputNames">Off</span>
       </input>&nbsp;
       <input type="radio" name="projector_actions" value="MUTE_ON">
-        <span class="inputNames">Mute On</span>
+        <span class="inputNames">Freeze</span>
       </input>&nbsp;
       <input type="radio" name="projector_actions" value="MUTE_OFF">
-        <span class="inputNames">Mute Off</span>
-      </input><br/><br/>
+        <span class="inputNames">Unfreeze</span>
+      </input><br/>
       <input type="button" onclick="doCommand('results');" value="Apply" class="onoffbutton">
     </div>
   </div>

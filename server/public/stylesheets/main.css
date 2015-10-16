@@ -6,34 +6,45 @@ body {
 .results {
     overflow-y: scroll;
     height: 60px;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 10px 1px 10px;
     padding: 2px;
     border: 1px solid green;
     font-size: 8px;
-    min-width: 200px;
+    min-width: 400px;
 }
 
 .v_selection_box {
-    margin: 1px 20px 1px 20px;
-    padding: 8px;
+    margin: 0px 10px 1px 10px;
+    padding: 2px;
     border: 1px solid gray;
-    font-size: 8px;
-    min-width: 200px;
+    min-width: 400px;
 }
 
 span.projectors {
-    font-size: 12px;
+    font-size: 20px;
+    color: blue;
 }
 
 span.inputNames {
     font-family: verdana;
-    font-size: 9px;
+    font-size: 24px;
+    color: #005A31;
 }
 
 input.onoffbutton {
-    width: 60px;
-    height: 20px;
+    width: 100px;
+    height: 30px;
     margin: 0px 40px 0px 40px;
+    border: 1px solid green;
+    background-color: green;
+    font-size: 20px;
+}
+
+input.systembutton {
+    width: 160px;
+    height: 50px;
+    margin: 10px 10px 10px 10px;
     border: 1px solid red;
     background-color: red;
+    font-size: 40px;
 }
