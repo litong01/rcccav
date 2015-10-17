@@ -9,7 +9,6 @@ import models.rcccav.DeviceController;
 
 public class Application extends Controller {
     private DeviceController controller = DeviceController.getInstance("conf/avconfig.json");
-    private boolean command_done = true;
 
     public Result index() {
         return ok(views.html.index.render("Something"));
@@ -22,16 +21,11 @@ public class Application extends Controller {
      */
     public Result powerSystem(String action){
         Logger.info(this.getClass().getSuperclass().getName());
-        if (this.command_done) {
-            this.command_done = false;
+        synchronized(this) {
             Logger.debug("in powerSystem... action = " + action);
             String results = this.controller.powerSystem(DeviceController.SystemAction.valueOf(action));
             Logger.debug("finished call DeviceController.");
-            this.command_done = true;
             return ok(results);
-        }
-        else {
-            return ok("Previous command is still going! Try again in few seconds.");
         }
     }
 
@@ -42,16 +36,11 @@ public class Application extends Controller {
      * @return Action result.
      */
     public Result switchVideoSignal(String source, String output){
-        if (this.command_done) {
-            this.command_done = false;
+        synchronized(this) {
             this.controller.doCommand(source, output);
             String results = this.controller.getActionResponse(source);
-            this.command_done = true;
             return ok("Perform video switch on device: " + source + ". Action: " +
                       output + ".<br/>Results: " + results);
-        }
-        else {
-            return ok("Previous command is still going! Try again in few seconds.");
         }
     }
 }
