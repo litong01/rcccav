@@ -10,7 +10,7 @@
     </div>
     <div class="v_selection_box">
       <span class="projectors">FRONT RIGHT, FRONT LEFT and BACK PROJECTOR</span><br />
-      <input type="radio" name="group1_projectors" value="mac" onclick="switchInput('results', 'G1', 'mac');">
+      <input type="radio" name="group1_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G1', 'mac');">
         <span class="inputNames">Mac</span>
       </input>&nbsp;
       <input type="radio" name="group1_projectors" value="podium" onclick="switchInput('results', 'G1', 'podium');">
@@ -22,7 +22,7 @@
     </div>
     <div class="v_selection_box">
       <span class="projectors">FRONT CENTER PROJECTOR</span><br />
-      <input type="radio" name="group2_projectors" value="mac" onclick="switchInput('results', 'G2', 'mac');">
+      <input type="radio" name="group2_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G2', 'mac');">
         <span class="inputNames">Mac</span>
       </input>&nbsp;
       <input type="radio" name="group2_projectors" value="podium" onclick="switchInput('results', 'G2', 'podium');">
@@ -34,7 +34,7 @@
     </div>
     <div class="v_selection_box">
       <span class="projectors">RCCC DTV CHANNEL #1</span><br />
-      <input type="radio" name="group3_projectors" value="mac" onclick="switchInput('results', 'G3', 'mac');">
+      <input type="radio" name="group3_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G3', 'mac');">
         <span class="inputNames">Mac</span>
       </input>&nbsp;
       <input type="radio" name="group3_projectors" value="podium" onclick="switchInput('results', 'G3', 'podium');">
@@ -46,7 +46,7 @@
     </div>
     <div class="v_selection_box">
       <span class="projectors">RCCC DTV CHANNEL #2</span><br />
-      <input type="radio" name="group4_projectors" value="mac" onclick="switchInput('results', 'G4', 'mac');">
+      <input type="radio" name="group4_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G4', 'mac');">
         <span class="inputNames">Mac</span>
       </input>&nbsp;
       <input type="radio" name="group4_projectors" value="podium" onclick="switchInput('results', 'G4', 'podium');">
@@ -82,7 +82,9 @@
       <input type="radio" name="projector_actions" value="FREEZE_OFF">
         <span class="inputNames">Unfreeze</span>
       </input><br/>
-      <input type="button" onclick="doCommand('results');" value="Apply" class="onoffbutton">
+      <div align="right">
+        <input type="button" onclick="doCommand('results');" value="Apply" class="onoffbutton">
+      </div>
     </div>
   </div>
   <div id="results" class="results" />
