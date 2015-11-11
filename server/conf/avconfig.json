@@ -170,7 +170,7 @@
            "comment": "Connects to the internal USB port, do not change!!! This reverse the ON/OFF to controll Furman power!",
            "deviceId": "/dev/ttyACM0",
            "deviceType": "RS232Device",
-           "powerSequence": 4,
+           "powerSequence": 5,
            "enabled": true,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x72, 0x65, 0x6C, 0x61, 0x79, 0x20, 0x6F, 0x6E, 0x20, 0x33, 0x0D",
@@ -190,8 +190,8 @@
           {"title": "TestFakeDevice",
            "deviceId": "",
            "deviceType": "TestDevice",
-           "powerSequence": 2,
-           "enabled": false,
+           "powerSequence": 4,
+           "enabled": true,
            "actions": {"ON": "FakeDevice On command!",
                        "OFF": "FakeDevice Off command!"}
           }
