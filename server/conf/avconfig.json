@@ -134,7 +134,7 @@
            "comment": "Connects to the internal USB port, do not change!!!",
            "deviceId": "/dev/ttyACM0",
            "deviceType": "RS232Device",
-           "powerSequence": 1,
+           "powerSequence": 2,
            "enabled": true,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x72, 0x65, 0x6C, 0x61, 0x79, 0x20, 0x6F, 0x6E, 0x20, 0x30, 0x0D",
@@ -146,7 +146,7 @@
            "comment": "Connects to the internal USB port, do not change!!!",
            "deviceId": "/dev/ttyACM0",
            "deviceType": "RS232Device",
-           "powerSequence": 2,
+           "powerSequence": 3,
            "enabled": true,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x72, 0x65, 0x6C, 0x61, 0x79, 0x20, 0x6F, 0x6E, 0x20, 0x31, 0x0D",
@@ -158,7 +158,7 @@
            "comment": "Connects to the internal USB port, do not change!!!",
            "deviceId": "/dev/ttyACM0",
            "deviceType": "RS232Device",
-           "powerSequence": 3,
+           "powerSequence": 4,
            "enabled": true,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x72, 0x65, 0x6C, 0x61, 0x79, 0x20, 0x6F, 0x6E, 0x20, 0x32, 0x0D",
@@ -170,7 +170,7 @@
            "comment": "Connects to the internal USB port, do not change!!! This reverse the ON/OFF to controll Furman power!",
            "deviceId": "/dev/ttyACM0",
            "deviceType": "RS232Device",
-           "powerSequence": 5,
+           "powerSequence": 6,
            "enabled": true,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"ON": "0x72, 0x65, 0x6C, 0x61, 0x79, 0x20, 0x6F, 0x6E, 0x20, 0x33, 0x0D",
@@ -181,19 +181,19 @@
           {"title": "Numato Lab 4 Channel USB Relay Module",
            "deviceId": "/dev/ttyACM0",
            "deviceType": "RS232Device",
-           "powerSequence": 4,
+           "powerSequence": 2,
            "enabled": false,
            "nParams": {"BAUDRATE": 9600, "DATABITS": 8, "STOPBITS": 1, "PARITY": 0, "FLOWCONTROL": 0},
            "actions": {"OFF": "0x72, 0x65, 0x73, 0x64, 0x74, 0x0d"}
           },
-       "fakedevice":
-          {"title": "TestFakeDevice",
+       "timedelaydevice":
+          {"title": "TimeDelayDevice",
            "deviceId": "",
            "deviceType": "TestDevice",
-           "powerSequence": 4,
+           "powerSequence": 5,
            "enabled": true,
-           "actions": {"ON": "FakeDevice On command!",
-                       "OFF": "FakeDevice Off command!"}
+           "actions": {"ON": "TestDevice On command (Non-OP)!",
+                       "OFF": "TestDevice Off command (Non-OP)!"}
           }
    }
 }

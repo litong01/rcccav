@@ -6,11 +6,11 @@ import play.Application;
 public class Global extends GlobalSettings {
 
     public void onStart(Application app) {
-        Logger.debug("RCCC AV System is ready!");
+        Logger.info("RCCC AV System is ready!");
     }
 
     public void onStop(Application app) {
-        Logger.debug("Application is shutting down!");
+        Logger.info("Application is shutting down!");
     }
 
 }

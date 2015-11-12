@@ -40,13 +40,14 @@ function switchInput(resultDiv, group, source) {
         1 - mac
         2 - podium
         3 - camcorder
+        4 - laptop
     Outputs:
         1 - Kramer 1:3 RGBHV Distributor which connects Group1 projectors via RGBHV
         2 - Connects to group2 project via VGA over CAT6
         3 - Connects to VGA to HDMI scaler as input to RF Modulator Channel #1
         4 - Connects to VGA to HDMI scaler as input to RF Modulator Channel #2
     */
-    var INPUTS = {mac: '1', podium: '2', camcorder: '3'};
+    var INPUTS = {mac: '1', podium: '2', camcorder: '3', laptop: '4'};
     var OUTPUTS = {G1: 'A', G2: 'B', G3: 'C', G4: 'D'}
     var action = 'S' + INPUTS[source] + '_' + OUTPUTS[group];
     console.log(action);
