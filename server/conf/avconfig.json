@@ -205,7 +205,7 @@
                        "mp3Dir":"/opt/recorder/mp3",
                        "filename":"%Y-%m-%d-rccc-audio-%H-%M-%v.wav"},
            "actions": {"START": "arecord -f dat -d 144000 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
-                       "STOP": "kill -TERM $(cat $wavDir/pid)"}
+                       "STOP": "kill -TERM $pid"}
           }
    }
 }

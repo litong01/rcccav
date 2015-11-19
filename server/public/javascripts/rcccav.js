@@ -88,3 +88,21 @@ function doCommand(resultDiv) {
       }
     });
 }
+
+function doRecording(resultDiv, action) {
+
+    //Now ready to send the command.
+    $.ajax({
+      url: '/rcccav/video/recorder/' + action.toUpperCase(),
+      type: 'get',
+      headers: {},
+      success: function( data ) {
+        console.log(data);
+        $('#' + resultDiv).html(data);
+      },
+      error: function(data) {
+        console.log(data);
+        $('#' + resultDiv).html(data);
+      }
+    });
+}
