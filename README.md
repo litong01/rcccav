@@ -76,6 +76,6 @@ Sun JDK 8:
     sudo apt-get update
     sudo apt-get install oracle-java8-installer
 
-slsa-utils and lame:
+alsa-utils and lame:
 
     sudo apt-get install alsa-utils lame
