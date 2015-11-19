@@ -203,9 +203,11 @@
            "enabled": true,
            "sParams": {"wavDir":"/opt/recorder/wav",
                        "mp3Dir":"/opt/recorder/mp3",
-                       "filename":"%Y-%m-%d-rccc-audio-%H-%M-%v.wav"},
+                       "wavBackupDir":"/opt/recorder/backup",
+                       "filename":"rccc-audio-%Y-%m-%d-%H-%M-%v.wav"},
            "actions": {"START": "arecord -f dat -d 144000 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
-                       "STOP": "kill -TERM $pid"}
+                       "STOP": "kill -TERM $pid",
+                       "2MP3": "lame -V 3 -b 128 $wavBackupDir/$fileName.wav $mp3Dir/$fileName.mp3"}
           }
    }
 }
