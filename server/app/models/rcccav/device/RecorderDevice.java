@@ -59,11 +59,6 @@ public class RecorderDevice extends Device {
         }
     }
 
-    private boolean inProgress() {
-
-        return true;
-    }
-
     @Override
     public void disconnect() {
     }
