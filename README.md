@@ -69,12 +69,12 @@ Prerequisite:
 This application requires Sun JDK 8, alsa-utils and lame. Following the
 procedures below to install these prerequisites:
 
-1. Sun JDK 8::
+1. Sun JDK 8:
 
     sudo add-apt-repository ppa:webupd8team/java
     sudo apt-get update
     sudo apt-get install oracle-java8-installer
-    
-2. slsa-utils and lame::
+
+2. slsa-utils and lame:
 
     sudo apt-get install alsa-utils lame
