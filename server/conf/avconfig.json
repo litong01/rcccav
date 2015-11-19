@@ -194,6 +194,18 @@
            "enabled": true,
            "actions": {"ON": "TestDevice On command (Non-OP)!",
                        "OFF": "TestDevice Off command (Non-OP)!"}
+          },
+       "recorder":
+          {"title": "Audio Recorder",
+           "deviceId": "audio-recorder",
+           "deviceType": "RecorderDevice",
+           "powerSequence": 1,
+           "enabled": true,
+           "sParams": {"wavDir":"/opt/recorder/wav",
+                       "mp3Dir":"/opt/recorder/mp3",
+                       "filename":"%Y-%m-%d-rccc-audio-%H-%M-%v.wav"},
+           "actions": {"START": "arecord -f dat -d 144000 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
+                       "STOP": "kill -TERM $(cat $wavDir/pid)"}
           }
    }
 }
