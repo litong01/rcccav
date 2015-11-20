@@ -3,12 +3,12 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET   /                                controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET   /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
 
 # Routes for RCCC AV Controllers
-GET		/rcccav/system/:action		controllers.Application.powerSystem(action: String)
+GET   /rcccav/system/:action           controllers.Application.powerSystem(action: String)
 
-GET 	/rcccav/video/:device/:action	controllers.Application.switchVideoSignal(device: String, action: String)
+GET   /rcccav/video/:device/:action    controllers.Application.switchVideoSignal(device: String, action: String)
