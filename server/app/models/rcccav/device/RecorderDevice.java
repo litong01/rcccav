@@ -39,12 +39,16 @@ public class RecorderDevice extends Device {
     protected String wavDir = "";
     protected String mp3Dir = "";
     protected String wavBackupDir = "";
+    protected String mp3BackupDir = "";
     protected String filename = "";
     protected String ftp_host = "";
     protected String ftp_user = "";
     protected String ftp_password = "";
     protected String ftp_dir = "";
-    protected RCCCAVFileFilter fileFilter = new RCCCAVFileFilter(".wav");
+    protected long delayBetweenUploadRetrys = 7;
+    public long delayBetweenTasks = 7;
+    protected RCCCAVFileFilter wavFilter = new RCCCAVFileFilter(".wav");
+    protected RCCCAVFileFilter mp3Filter = new RCCCAVFileFilter(".mp3");
 
     public RecorderDevice(JSONObject spec) {
         this.spec = spec;
@@ -52,11 +56,14 @@ public class RecorderDevice extends Device {
         this.wavDir = this.setting.sParams.get("wavDir");
         this.mp3Dir = this.setting.sParams.get("mp3Dir");
         this.wavBackupDir = this.setting.sParams.get("wavBackupDir");
+        this.mp3BackupDir = this.setting.sParams.get("mp3BackupDir");
         this.filename = this.setting.sParams.get("filename");
         this.ftp_host = this.setting.sParams.get("ftp_host");
         this.ftp_user = this.setting.sParams.get("ftp_user");
         this.ftp_password = this.setting.sParams.get("ftp_password");
         this.ftp_dir = this.setting.sParams.get("ftp_dir");
+        this.delayBetweenUploadRetrys = this.setting.nParams.get("delayBetweenUploadRetrys");
+        this.delayBetweenTasks = this.setting.nParams.get("delayBetweenTasks");
     }
 
     
@@ -137,13 +144,44 @@ public class RecorderDevice extends Device {
         return resultFlag;
     }
 
+    public void doMP3Uploads() {
+        String pid = this.getPid();
+        if (!pid.isEmpty()) return;
+        File mp3Dir = new File(this.mp3Dir);
+        File[] fileList = mp3Dir.listFiles(this.mp3Filter);
+        String filename = "";
+
+        for (File mp3File : fileList) {
+            //Make sure that we try 3 times if the upload fails
+            filename = mp3File.getName();
+            for (int tryCount=0; tryCount<3; tryCount++) {
+                if (this.doUploadMP3(this.mp3Dir, filename)) {
+                    try {
+                        Path sPath = Paths.get(this.mp3Dir + "/" + filename);
+                        Path tPath = Paths.get(this.mp3BackupDir + "/" + filename);
+                        Files.move(sPath, tPath, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        Logger.error(e.getMessage());
+                    }
+                    break;
+                }
+                else {
+                    try {
+                        //We need to wait for awhile before retry.
+                        Thread.sleep(this.delayBetweenUploadRetrys * 1000);
+                    } catch (InterruptedException ex) {}
+                }
+            }
+        }
+    }
+    
     public void doWavToMP3(String cmd) {
         //If recording is in progress, we will not perform this task
         String pid = this.getPid();
         if (!pid.isEmpty()) return;
 
         File wavDir = new File(this.wavDir);
-        File[] fileList = wavDir.listFiles(this.fileFilter);
+        File[] fileList = wavDir.listFiles(this.wavFilter);
         String filename = "";
         String newCmd = "";
         String cmdStr = this.setting.actions.get(cmd);
@@ -163,11 +201,6 @@ public class RecorderDevice extends Device {
                 newCmd = newCmd.replace("$mp3Dir", this.mp3Dir);
                 newCmd = newCmd.replace("$fileName", filename);
                 this.executeCmd(newCmd, true);
-                //Make sure that we try 3 times if the upload fails
-                for (int tryCount=0; tryCount<3; tryCount++) {
-                    if (this.doUploadMP3(this.mp3Dir, filename + ".mp3"))
-                        break;
-                }
             }
         }
     }

@@ -40,7 +40,9 @@ public class DeviceController {
         this.config = new Configuration(config_file);
         TaskRunner runner = new TaskRunner(this);
         this.recorder = (RecorderDevice) this.config.getDevicesByName("recorder");
-        this.scheduler.scheduleWithFixedDelay(runner, 7, 7, TimeUnit.SECONDS);
+        this.scheduler.scheduleWithFixedDelay(
+                runner, this.recorder.delayBetweenTasks,
+                this.recorder.delayBetweenTasks, TimeUnit.SECONDS);
     }
 
     /**
@@ -145,7 +147,6 @@ public class DeviceController {
                     int sleeptime = ((Long)this.config.getConfig().get("delay")).intValue();
                     Thread.sleep(sleeptime * 1000);
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
                     Logger.error(ex.getMessage());
                 }
             }
@@ -165,6 +166,7 @@ public class DeviceController {
         Logger.debug("Audio convertion and uploading process started!");
         try {
             this.recorder.doWavToMP3("2MP3");
+            this.recorder.doMP3Uploads();
         }
         catch (Exception e) {
             Logger.error(e.getMessage());
