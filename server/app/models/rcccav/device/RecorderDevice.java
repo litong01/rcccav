@@ -93,8 +93,8 @@ public class RecorderDevice extends Device {
         else return pid;
     }
 
-    private void doUploadMP3(String path, String filename) {
-
+    private boolean doUploadMP3(String path, String filename) {
+        boolean resultFlag = false;
         FTPClient ftpClient = new FTPClient();
         try {
             ftpClient.connect(this.ftp_host, 21);
@@ -118,6 +118,7 @@ public class RecorderDevice extends Device {
             if (done) {
                 this.actionResult += filename + " uploaded successfully!";
                 Logger.debug(filename + " uploaded successfully!");
+                resultFlag = true;
             }
             else {
                 this.actionResult += filename + " uploading failed!";
@@ -135,6 +136,7 @@ public class RecorderDevice extends Device {
                 Logger.error(ex.getMessage());
             }
         }
+        return resultFlag;
     }
 
     public void doWavToMP3(String cmd) {
@@ -163,7 +165,11 @@ public class RecorderDevice extends Device {
                 newCmd = newCmd.replace("$mp3Dir", this.mp3Dir);
                 newCmd = newCmd.replace("$fileName", filename);
                 this.executeCmd(newCmd, true);
-                this.doUploadMP3(this.mp3Dir, filename + ".mp3");
+                //Make sure that we try 3 times if the upload fails
+                for (int tryCount=0; tryCount<3; tryCount++) {
+                    if (this.doUploadMP3(this.mp3Dir, filename + ".mp3"))
+                        break;
+                }
             }
         }
     }
