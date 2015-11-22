@@ -72,11 +72,11 @@ public class RecorderDevice extends Device {
         String cmdStr = this.setting.actions.get(cmd);
         if (cmdStr != null && cmdStr.length() > 0) {
             String pid = this.getPid();
-            if (!pid.isEmpty() && cmd.equals("STOP")) {
+            if (pid.isEmpty() && cmd.equals("STOP")) {
                 this.actionResult = "Recording is not in progress!";
                 return;
             }
-            else if (pid.isEmpty() && (cmd.equals("START"))) {
+            else if (!pid.isEmpty() && (cmd.equals("START"))) {
                 this.actionResult = "Recording is in progress!";
                 return;
             }
@@ -96,8 +96,7 @@ public class RecorderDevice extends Device {
         try {
             pid = new String(Files.readAllBytes(Paths.get(this.wavDir + "/pid")));
         } catch (IOException e) {}
-        if (pid.isEmpty()) return "";
-        else return pid;
+        return pid;
     }
 
     private boolean doUploadMP3(String path, String filename) {
@@ -154,7 +153,7 @@ public class RecorderDevice extends Device {
         for (File mp3File : fileList) {
             //Make sure that we try 3 times if the upload fails
             filename = mp3File.getName();
-            for (int tryCount=0; tryCount<3; tryCount++) {
+            if (mp3File.isFile()) {
                 if (this.doUploadMP3(this.mp3Dir, filename)) {
                     try {
                         Path sPath = Paths.get(this.mp3Dir + "/" + filename);
@@ -163,14 +162,11 @@ public class RecorderDevice extends Device {
                     } catch (IOException e) {
                         Logger.error(e.getMessage());
                     }
-                    break;
                 }
-                else {
-                    try {
-                        //We need to wait for awhile before retry.
-                        Thread.sleep(this.delayBetweenUploadRetrys * 1000);
-                    } catch (InterruptedException ex) {}
-                }
+                try {
+                    //We need to wait for awhile before handle next file.
+                    Thread.sleep(this.delayBetweenUploadRetrys * 1000);
+                } catch (InterruptedException ex) {}
             }
         }
     }
@@ -186,7 +182,7 @@ public class RecorderDevice extends Device {
         String newCmd = "";
         String cmdStr = this.setting.actions.get(cmd);
         for (File wavFile : fileList) {
-            if (wavFile.isFile() && wavFile.canWrite()) {
+            if (wavFile.isFile()) {
                 filename = wavFile.getName();
                 Path sPath = Paths.get(this.wavDir + "/" + filename);
                 Path tPath = Paths.get(this.wavBackupDir + "/" + filename);
