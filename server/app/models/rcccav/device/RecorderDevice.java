@@ -64,16 +64,12 @@ public class RecorderDevice extends Device {
     public void doCommand(String cmd) {
         String cmdStr = this.setting.actions.get(cmd);
         if (cmdStr != null && cmdStr.length() > 0) {
-            String pid = "";
-            try {
-                pid = new String(Files.readAllBytes(Paths.get(this.wavDir + "/pid")));
-            } catch (IOException e) {}
-
-            if (pid.isEmpty() && cmd.equals("STOP")) {
+            String pid = this.getPid();
+            if (!pid.isEmpty() && cmd.equals("STOP")) {
                 this.actionResult = "Recording is not in progress!";
                 return;
             }
-            else if (!pid.isEmpty() && (cmd.equals("START") || cmd.equals("2MP3"))) {
+            else if (pid.isEmpty() && (cmd.equals("START"))) {
                 this.actionResult = "Recording is in progress!";
                 return;
             }
@@ -85,10 +81,16 @@ public class RecorderDevice extends Device {
                 cmdStr = cmdStr.replace("$pid", pid);
                 this.executeCmd(cmdStr, false);
             }
-            else if (cmd.equals("2MP3")) {
-                this.doWavToMP3(cmdStr);;
-            }
         }
+    }
+
+    private String getPid() {
+        String pid = "";
+        try {
+            pid = new String(Files.readAllBytes(Paths.get(this.wavDir + "/pid")));
+        } catch (IOException e) {}
+        if (pid.isEmpty()) return "";
+        else return pid;
     }
 
     private void doUploadMP3(String path, String filename) {
@@ -110,19 +112,19 @@ public class RecorderDevice extends Device {
             String remoteFile = this.ftp_dir + yearInString + "/" + filename;
             InputStream inputStream = new FileInputStream(localFile);
 
-            Logger.info("Start uploading file " + filename + " to " + remoteFile);
+            Logger.debug("Start uploading file " + filename + " to " + remoteFile);
             boolean done = ftpClient.storeFile(remoteFile, inputStream);
             inputStream.close();
             if (done) {
-                Logger.info(filename + " was uploaded successfully!");
                 this.actionResult += filename + " uploaded successfully!";
+                Logger.debug(filename + " uploaded successfully!");
             }
             else {
                 this.actionResult += filename + " uploading failed!";
+                Logger.error(filename + " uploading failed!");
             }
         } catch (IOException ex) {
-            System.out.println("Error: " + ex.getMessage());
-            ex.printStackTrace();
+            Logger.error(ex.getMessage());
         } finally {
             try {
                 if (ftpClient.isConnected()) {
@@ -130,16 +132,21 @@ public class RecorderDevice extends Device {
                     ftpClient.disconnect();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.error(ex.getMessage());
             }
         }
     }
 
-    private void doWavToMP3(String cmdStr) {
+    public void doWavToMP3(String cmd) {
+        //If recording is in progress, we will not perform this task
+        String pid = this.getPid();
+        if (!pid.isEmpty()) return;
+
         File wavDir = new File(this.wavDir);
         File[] fileList = wavDir.listFiles(this.fileFilter);
         String filename = "";
         String newCmd = "";
+        String cmdStr = this.setting.actions.get(cmd);
         for (File wavFile : fileList) {
             if (wavFile.isFile() && wavFile.canWrite()) {
                 filename = wavFile.getName();
@@ -148,7 +155,6 @@ public class RecorderDevice extends Device {
                 try {
                     Files.move(sPath, tPath, StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException e) {
-                    e.printStackTrace();
                     Logger.error(e.getMessage());
                     continue;
                 }
@@ -156,7 +162,6 @@ public class RecorderDevice extends Device {
                 newCmd = cmdStr.replace("$wavBackupDir", this.wavBackupDir);
                 newCmd = newCmd.replace("$mp3Dir", this.mp3Dir);
                 newCmd = newCmd.replace("$fileName", filename);
-                Logger.debug("The command to be executed is " + newCmd);
                 this.executeCmd(newCmd, true);
                 this.doUploadMP3(this.mp3Dir, filename + ".mp3");
             }
@@ -166,13 +171,13 @@ public class RecorderDevice extends Device {
     private void executeCmd(String cmdStr, boolean waitFor) {
         Runtime runtime = Runtime.getRuntime();
         try {
-            Logger.info("Ready to execute recorder command: " + cmdStr);
+            Logger.debug("Ready to execute recorder command: " + cmdStr);
             if (waitFor) {
                 Process proc = runtime.exec(cmdStr);
                 proc.waitFor();
             }
             else runtime.exec(cmdStr);
-            Logger.info("Shell command " + cmdStr + " executed successfully!");
+            Logger.debug("Shell command " + cmdStr + " executed successfully!");
             this.actionResult = "Command Accepted";
         } catch (IOException ex) {
             this.actionResult = ex.getMessage();
@@ -186,5 +191,4 @@ public class RecorderDevice extends Device {
     @Override
     public void disconnect() {
     }
-
 }

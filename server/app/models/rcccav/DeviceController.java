@@ -1,25 +1,46 @@
 package models.rcccav;
 
+
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.Set;
+
 import play.Logger;
-
 import jssc.SerialPortList;
-
 import models.rcccav.device.Device;
+import models.rcccav.device.RecorderDevice;
 
 public class DeviceController {
 
     private static final int LEVELS_SUPPORTED = 10;
     private static DeviceController instance = null;
+    private RecorderDevice recorder = null;
     private Configuration config = null;
+    private ScheduledExecutorService scheduler =
+            Executors.newSingleThreadScheduledExecutor();
+
 
     public enum SystemAction {
         ON, OFF, REBOOT, FORCE_OFF
     }
 
+    public class TaskRunner implements Runnable {
+        private DeviceController controller = null;
+        public TaskRunner(DeviceController controller) {
+            this.controller = controller;
+        }
+        public void run() {
+            this.controller.processAudio();
+        }
+    }
+
     protected DeviceController(String config_file) {
         this.config = new Configuration(config_file);
+        TaskRunner runner = new TaskRunner(this);
+        this.recorder = (RecorderDevice) this.config.getDevicesByName("recorder");
+        this.scheduler.scheduleWithFixedDelay(runner, 7, 7, TimeUnit.SECONDS);
     }
 
     /**
@@ -138,5 +159,16 @@ public class DeviceController {
      */
     public static String[] getSerialDeviceList() {
         return SerialPortList.getPortNames();
+    }
+
+    public void processAudio() {
+        Logger.debug("Audio convertion and uploading process started!");
+        try {
+            this.recorder.doWavToMP3("2MP3");
+        }
+        catch (Exception e) {
+            Logger.error(e.getMessage());
+        }
+        Logger.debug("Audio convertion and uploading process finised!");
     }
 }
