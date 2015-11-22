@@ -116,12 +116,10 @@ public class RecorderDevice extends Device {
             boolean done = ftpClient.storeFile(remoteFile, inputStream);
             inputStream.close();
             if (done) {
-                this.actionResult += filename + " uploaded successfully!";
                 Logger.debug(filename + " uploaded successfully!");
                 resultFlag = true;
             }
             else {
-                this.actionResult += filename + " uploading failed!";
                 Logger.error(filename + " uploading failed!");
             }
         } catch (IOException ex) {
@@ -184,7 +182,7 @@ public class RecorderDevice extends Device {
             }
             else runtime.exec(cmdStr);
             Logger.debug("Shell command " + cmdStr + " executed successfully!");
-            this.actionResult = "Command Accepted";
+            if (!waitFor) this.actionResult = "Command Accepted";
         } catch (IOException ex) {
             this.actionResult = ex.getMessage();
             Logger.error(this.actionResult);
