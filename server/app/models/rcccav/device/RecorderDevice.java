@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import org.apache.commons.net.ftp.FTP;
@@ -86,7 +87,7 @@ public class RecorderDevice extends Device {
                 cmdStr = cmdStr.replace("$mp3Dir", this.mp3Dir);
                 cmdStr = cmdStr.replace("$filename", this.filename);
                 cmdStr = cmdStr.replace("$pid", pid);
-                this.executeCmd(cmdStr, false);
+                this.executeCmdWithoutOutput(cmdStr);
             }
         }
     }
@@ -183,41 +184,58 @@ public class RecorderDevice extends Device {
         String cmdStr = this.setting.actions.get(cmd);
         for (File wavFile : fileList) {
             if (wavFile.isFile()) {
+                //First convert the wav to mp3
                 filename = wavFile.getName();
-                Path sPath = Paths.get(this.wavDir + "/" + filename);
-                Path tPath = Paths.get(this.wavBackupDir + "/" + filename);
-                try {
-                    Files.move(sPath, tPath, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    Logger.error(e.getMessage());
-                    continue;
-                }
                 filename = filename.substring(0, filename.length() - 4);
-                newCmd = cmdStr.replace("$wavBackupDir", this.wavBackupDir);
+                newCmd = cmdStr.replace("$wavDir", this.wavDir);
                 newCmd = newCmd.replace("$mp3Dir", this.mp3Dir);
                 newCmd = newCmd.replace("$fileName", filename);
-                this.executeCmd(newCmd, true);
+
+                // if conversion is OK move the file
+                if (this.executeCmdWithOutput(newCmd)) {
+                    Path sPath = Paths.get(this.wavDir + "/" + filename + ".wav");
+                    Path tPath = Paths.get(this.wavBackupDir + "/" + filename + ".mp3");
+                    try {
+                        Files.move(sPath, tPath, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        Logger.error(e.getMessage());
+                    }
+                }
             }
         }
     }
 
-    private void executeCmd(String cmdStr, boolean waitFor) {
-        Runtime runtime = Runtime.getRuntime();
+    private void executeCmdWithoutOutput(String cmdStr) {
         try {
             Logger.debug("Ready to execute recorder command: " + cmdStr);
-            if (waitFor) {
-                Process proc = runtime.exec(cmdStr);
-                proc.waitFor();
-            }
-            else runtime.exec(cmdStr);
-            Logger.debug("Shell command " + cmdStr + " executed successfully!");
-            if (!waitFor) this.actionResult = "Command Accepted";
+            ProcessBuilder pb = new ProcessBuilder(Arrays.asList(cmdStr.split("\\s+")));
+            pb.start();
+            this.actionResult = "Command Accepted";
         } catch (IOException ex) {
             this.actionResult = ex.getMessage();
             Logger.error(this.actionResult);
+        }
+    }
+
+    private boolean executeCmdWithOutput(String cmdStr) {
+        try {
+            Logger.debug("Ready to execute recorder command: " + cmdStr);
+            ProcessBuilder pb = new ProcessBuilder(Arrays.asList(cmdStr.split("\\s+")));
+            File output = new File(this.wavDir + "/shellcmd.output.log");
+            File errors = new File(this.wavDir + "/shellcmd.error.log");
+
+            pb.redirectError(errors);
+            pb.redirectOutput(output);
+
+            pb.start().waitFor();
+            Logger.debug("Shell command " + cmdStr + " executed successfully!");
+            return true;
+        } catch (IOException ex) {
+            Logger.error(ex.getMessage());
+            return false;
         } catch (InterruptedException e) {
-            this.actionResult = e.getMessage();
-            Logger.error(this.actionResult);
+            Logger.error(e.getMessage());
+            return false;
         }
     }
 

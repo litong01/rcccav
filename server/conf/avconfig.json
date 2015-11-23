@@ -201,16 +201,16 @@
            "deviceType": "RecorderDevice",
            "powerSequence": 1,
            "enabled": true,
-           "nParams": {"delayBetweenUploadRetrys": 10, "delayBetweenTasks":20},
+           "nParams": {"delayBetweenUploadRetrys": 10, "delayBetweenTasks":10},
            "sParams": {"wavDir":"/opt/recorder/wav",
                        "mp3Dir":"/opt/recorder/mp3",
                        "wavBackupDir":"/opt/recorder/wavBackup",
                        "mp3BackupDir":"/opt/recorder/mp3Backup",
-                       "filename":"rccc-audio-%Y-%m-%d-%H-%M-%v.wav",
+                       "filename":"rccc-audio-%Y-%m-%d-%a-%H-%M-%S.wav",
                        "ftp_host": "www.raleighccc.org", "ftp_user":"rcccav", "ftp_password":"XXXXXXX", "ftp_dir": "/"},
-           "actions": {"START": "arecord -f dat -d 144000 -Dhw:1,0 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
+           "actions": {"START": "arecord -f dat -d 216000 -Dhw:1,0 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
                        "STOP": "kill -TERM $pid",
-                       "2MP3": "lame -V 3 -b 128 $wavBackupDir/$fileName.wav $mp3Dir/$fileName.mp3"}
+                       "2MP3": "lame --quiet -V3 -b128 $wavDir/$fileName.wav $mp3Dir/$fileName.mp3"}
           }
    }
 }
