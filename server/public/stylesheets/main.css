@@ -3,6 +3,14 @@ body {
     font-family: verdana;
 }
 
+.oddrow {
+    background-color: #e6e6e6;
+}
+
+.evenrow {
+    background-color: #ffffff;
+}
+
 .results {
     overflow-y: scroll;
     height: 60px;

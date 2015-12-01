@@ -8,7 +8,7 @@
       <input type="button" onclick="turnSystem('results', 'On');"  value="ON" class="systembutton">
       <input type="button" onclick="turnSystem('results', 'Off');" value="OFF" class="systembutton">
     </div>
-    <div class="v_selection_box">
+    <div class="v_selection_box oddrow">
       <span class="projectors">FRONT RIGHT, FRONT LEFT and BACK PROJECTOR</span><br />
       <input type="radio" name="group1_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G1', 'mac');">
         <span class="inputNames">Mac</span>
@@ -23,7 +23,7 @@
         <span class="inputNames">Laptop</span>
       </input>
     </div>
-    <div class="v_selection_box">
+    <div class="v_selection_box evenrow">
       <span class="projectors">FRONT CENTER PROJECTOR</span><br />
       <input type="radio" name="group2_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G2', 'mac');">
         <span class="inputNames">Mac</span>
@@ -38,7 +38,7 @@
         <span class="inputNames">Laptop</span>
       </input>
     </div>
-    <div class="v_selection_box">
+    <div class="v_selection_box oddrow">
       <span class="projectors">RCCC DTV CHANNEL #1</span><br />
       <input type="radio" name="group3_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G3', 'mac');">
         <span class="inputNames">Mac</span>
@@ -53,7 +53,7 @@
         <span class="inputNames">Laptop</span>
       </input>
     </div>
-    <div class="v_selection_box">
+    <div class="v_selection_box evenrow">
       <span class="projectors">RCCC DTV CHANNEL #2</span><br />
       <input type="radio" name="group4_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G4', 'mac');">
         <span class="inputNames">Mac</span>
@@ -68,7 +68,7 @@
         <span class="inputNames">Laptop</span>
       </input>
     </div>
-    <div class="v_selection_box">
+    <div class="v_selection_box oddrow">
       <span class="projectors">PROJECTOR ACTIONS</span><br />
       <input type="radio" name="projectors" value="projector_front_left" checked="checked">
         <span class="inputNames">Front Left</span>
@@ -98,10 +98,10 @@
         <input type="button" onclick="doCommand('results');" value="Apply" class="onoffbutton">
       </div>
     </div>
-    <div class="v_selection_box">
+    <div class="v_selection_box evenrow">
       <span class="projectors">AUDIO RECORDING: </span>
-      <input type="button" onclick="doRecording('results', 'START');"  value="Start" class="audiobutton">
-      <input type="button" onclick="doRecording('results', 'STOP');" value="Stop" class="audiobutton">
+      <input id="startButton" type="button" onclick="doRecording('results', 'START');"  value="Start" class="audiobutton">
+      <input id="stopButton" type="button" onclick="doRecording('results', 'STOP');" value="Stop" class="audiobutton" style="background-color: red">
     </div>
   </div>
   <div id="results" class="results" />

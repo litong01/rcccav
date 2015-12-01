@@ -99,6 +99,14 @@ function doRecording(resultDiv, action) {
       success: function( data ) {
         console.log(data);
         $('#' + resultDiv).html(data);
+        if (action == 'START') {
+            $('#startButton').css('background-color', 'red');
+            $('#stopButton').css('background-color', 'green');
+        }
+        else {
+            $('#startButton').css('background-color', 'green');
+            $('#stopButton').css('background-color', 'red');
+        }
       },
       error: function(data) {
         console.log(data);
