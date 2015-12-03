@@ -33,7 +33,7 @@ span.projectors {
     color: blue;
 }
 
-span.inputNames {
+label.inputNames {
     font-family: verdana;
     font-size: 24px;
     color: #005A31;
