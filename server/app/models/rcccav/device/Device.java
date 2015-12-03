@@ -8,6 +8,7 @@ public abstract class Device {
     protected JSONObject spec = null;
     protected DeviceSetting setting = null;
     protected String actionResult = "";
+    protected String actionCode = "";
 
     abstract public void doCommand(String cmd);
     abstract public void disconnect();
@@ -15,7 +16,11 @@ public abstract class Device {
     public String getActionResult() {
         return this.actionResult;
     }
-    
+
+    public String getActionCode() {
+        return this.actionCode;
+    }
+
     public DeviceSetting getSetting() {
         return this.setting;
     }

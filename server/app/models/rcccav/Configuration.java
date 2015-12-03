@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
+
 import play.Logger;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -80,8 +83,19 @@ public class Configuration {
     public Device getDevicesByName(String name) {
         return this.deviceByName.get(name);
     }
-    
+
     public Set<String> getDeviceList() {
         return this.deviceByName.keySet();
+    }
+
+    public ArrayList<String> getMemberByName(String groupName) {
+        JSONObject groups = (JSONObject) this.config.get("groups");
+        JSONArray members = (JSONArray) groups.get(groupName);
+        ArrayList<String> names = new ArrayList<String>();
+        for (Object obj: members) {
+            names.add((String) obj);
+            Logger.debug("!!!!!!!!!!!!" + (String)obj);
+        }
+        return names;
     }
 }

@@ -7,6 +7,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Set;
 
+import org.json.simple.JSONObject;
+
 import play.Logger;
 import jssc.SerialPortList;
 import models.rcccav.device.Device;
@@ -80,6 +82,47 @@ public class DeviceController {
         else {
             Logger.info("Device " + deviceName + " was not found!");
         }
+    }
+
+    public String doComboCommand(String group, String command) {
+        ArrayList<String> members = this.config.getMemberByName(group);
+        String results = "";
+        for (String deviceName: members) {
+            Device device = this.config.getDevicesByName(deviceName);
+            if (device != null) {
+                Logger.debug("Device " + deviceName + " was found in the configuration");
+                device.doCommand(command);
+                // Wait for the command to complete
+                try { Thread.sleep(100);} catch (InterruptedException ex) {}
+                device.disconnect();
+                results += device.getActionResult() + "<br/>";
+            }
+            else {
+                Logger.debug("Device " + deviceName + " was not found!");
+            }
+        }
+        return results;
+    }
+
+    public String getSystemStatus() {
+        ArrayList<String> members = this.config.getMemberByName("INFO_GROUP");
+        JSONObject result = new JSONObject();
+        for (String deviceName: members) {
+            Logger.debug("!!!!!!===" + deviceName);
+            Device device = this.config.getDevicesByName(deviceName);
+            if (device != null) {
+                device.doCommand("INFO");
+                // Wait for the command to complete
+                try { Thread.sleep(100);} catch (InterruptedException ex) {}
+                result.put(deviceName, device.getActionCode());
+                device.disconnect();
+            }
+            else {
+                Logger.debug("Device " + deviceName + " was not found!");
+            }
+        }
+
+        return result.toString();
     }
 
     public Set<String> getDeviceList() {

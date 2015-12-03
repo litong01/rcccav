@@ -12,3 +12,7 @@ GET   /assets/*file                    controllers.Assets.versioned(path="/publi
 GET   /rcccav/system/:action           controllers.Application.powerSystem(action: String)
 
 GET   /rcccav/video/:device/:action    controllers.Application.switchVideoSignal(device: String, action: String)
+
+GET   /rcccav/combo/:group/:action     controllers.Application.doComboCommand(group: String, action: String)
+
+GET   /rcccav/status                   controllers.Application.getSystemStatus()

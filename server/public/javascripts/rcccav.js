@@ -57,7 +57,9 @@ function switchInput(resultDiv, group, source) {
       headers: {},
       success: function( data ) {
         console.log(data);
-        $('#' + resultDiv).html(data);
+        //$('#' + resultDiv).html(data);
+        //setStatus(group + '_', group + '_' + INPUTS[source]);
+        updateStatus();
       },
       error: function(data) {
         console.log(data);
@@ -72,7 +74,7 @@ function doCommand(resultDiv) {
     var action = $('input:radio[name=projector_actions]:checked').val();
     console.log(projector);
     console.log(action);
-    
+
     //Now ready to send the command.
     $.ajax({
       url: '/rcccav/video/' + projector + '/' + action.toUpperCase(),
@@ -81,6 +83,27 @@ function doCommand(resultDiv) {
       success: function( data ) {
         console.log(data);
         $('#' + resultDiv).html(data);
+      },
+      error: function(data) {
+        console.log(data);
+        $('#' + resultDiv).html(data);
+      }
+    });
+}
+
+function doComboCommand(resultDiv, group_prefix, onId) {
+    var ACTIONS = {'G11_1': 'FREEZE_ON', 'G11_2': 'FREEZE_OFF',
+                   'G21_1': 'FREEZE_ON', 'G21_2': 'FREEZE_OFF'};
+    //Now ready to send the command.
+    var action_name = ACTIONS[group_prefix + onId];
+    $.ajax({
+      url: '/rcccav/combo/' + group_prefix + '/' + action_name,
+      type: 'get',
+      headers: {},
+      success: function( data ) {
+        console.log(data);
+        $('#' + resultDiv).html(data);
+        setStatus(group_prefix, group_prefix + onId);
       },
       error: function(data) {
         console.log(data);
@@ -100,17 +123,47 @@ function doRecording(resultDiv, action) {
         console.log(data);
         $('#' + resultDiv).html(data);
         if (action == 'START') {
-            $('#startButton').css('background-color', 'red');
-            $('#stopButton').css('background-color', 'green');
+            setStatus('G5_', 'G5_1');
         }
         else {
-            $('#startButton').css('background-color', 'green');
-            $('#stopButton').css('background-color', 'red');
+            setStatus('G5_', 'G5_2');
         }
       },
       error: function(data) {
         console.log(data);
         $('#' + resultDiv).html(data);
+      }
+    });
+}
+
+var ON_COLOR = 'red';
+var OFF_COLOR = '#f2f2f2';
+var GROUP_MAX = {G1_:4, G11_:2, G2_:4, G21_:2, G3_:4, G4_:4, G5_:2};
+
+function setStatus(group_prefix, onId) {
+    var buttonId = "";
+    var group_max = GROUP_MAX[group_prefix];
+    for (i = 1; i <= group_max; i++) {
+        buttonId = group_prefix + i;
+        if (buttonId != onId)
+            $('#' + buttonId).css('background-color', OFF_COLOR);
+        else
+            $('#' + onId).css('background-color', ON_COLOR);
+    }
+}
+
+function updateStatus() {
+    $.ajax({
+      url: '/rcccav/status',
+      type: 'get',
+      headers: {},
+      success: function( data ) {
+        console.log(data);
+        $('#results').html(data);
+      },
+      error: function(data) {
+        console.log(data);
+        $('#results').html(data);
       }
     });
 }

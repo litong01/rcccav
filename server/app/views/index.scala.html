@@ -7,104 +7,88 @@
     <div class="v_selection_box">
       <input type="button" onclick="turnSystem('results', 'On');"  value="ON" class="systembutton">
       <input type="button" onclick="turnSystem('results', 'Off');" value="OFF" class="systembutton">
+      <input id="G_00" class="inputNames" type="button" name="update" value="Refresh"
+        onclick="updateStatus();">
+      </input>
     </div>
     <div class="v_selection_box oddrow">
       <span class="projectors">FRONT RIGHT, FRONT LEFT and BACK PROJECTOR</span><br />
-      <input id="G1_1" type="radio" name="group1_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G1', 'mac');">
-        <label for="G1_1" class="inputNames">Mac</label>
-      </input>&nbsp;
-      <input id="G1_2" type="radio" name="group1_projectors" value="podium" onclick="switchInput('results', 'G1', 'podium');">
-        <label for="G1_2" class="inputNames">Podium</label>
-      </input>&nbsp;
-      <input id="G1_3" type="radio" name="group1_projectors" value="camcorder" onclick="switchInput('results', 'G1', 'camcorder');">
-        <label for="G1_3" class="inputNames">Camcorder</label>
+      <input id="G1_1" class="inputNames" type="button" name="group1_projectors" value="Mac"
+        onclick="switchInput('results', 'G1', 'mac');" style="background-color: red">
       </input>
-      <input id="G1_4" type="radio" name="group1_projectors" value="laptop" onclick="switchInput('results', 'G1', 'laptop');">
-        <label for="G1_4" class="inputNames">Laptop</label>
+      <input id="G1_2" class="inputNames" type="button" name="group1_projectors" value="Podium"
+        onclick="switchInput('results', 'G1', 'podium');">
+      </input>
+      <input id="G1_3" class="inputNames" type="button" name="group1_projectors" value="Cam"
+        onclick="switchInput('results', 'G1', 'camcorder');">
+      </input>
+      <input id="G1_4" class="inputNames" type="button" name="group1_projectors" value="Laptop"
+        onclick="switchInput('results', 'G1', 'laptop');">
+      </input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input id="G11_1" class="inputNames" type="button" name="group1_actions" value="FRZ ON"
+        onclick="doComboCommand('results', 'G11_', 1);">
+      </input>
+      <input id="G11_2" class="inputNames" type="button" name="group1_actions" value="FRZ OFF"
+        onclick="doComboCommand('results', 'G11_', 2);" style="background-color: red">
       </input>
     </div>
     <div class="v_selection_box evenrow">
       <span class="projectors">FRONT CENTER PROJECTOR</span><br />
-      <input id="G2_1" type="radio" name="group2_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G2', 'mac');">
-        <label for="G2_1" class="inputNames">Mac</label>
-      </input>&nbsp;
-      <input id="G2_2" type="radio" name="group2_projectors" value="podium" onclick="switchInput('results', 'G2', 'podium');">
-        <label for="G2_2" class="inputNames">Podium</label>
-      </input>&nbsp;
-      <input id="G2_3" type="radio" name="group2_projectors" value="camcorder" onclick="switchInput('results', 'G2', 'camcorder');">
-        <label for="G2_3" class="inputNames">Camcorder</label>
+      <input id="G2_1" class="inputNames" type="button" name="group2_projectors" value="Mac"
+        onclick="switchInput('results', 'G2', 'mac');" style="background-color: red">
       </input>
-      <input id="G2_4" type="radio" name="group2_projectors" value="laptop" onclick="switchInput('results', 'G2', 'laptop');">
-        <label for="G2_4" class="inputNames">Laptop</label>
+      <input id="G2_2" class="inputNames" type="button" name="group2_projectors" value="Podium"
+        onclick="switchInput('results', 'G2', 'podium');">
       </input>
-    </div>
-    <div class="v_selection_box oddrow">
-      <span class="projectors">RCCC DTV CHANNEL #1</span><br />
-      <input id="G3_1" type="radio" name="group3_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G3', 'mac');">
-        <label for="G3_1" class="inputNames">Mac</label>
-      </input>&nbsp;
-      <input id="G3_2" type="radio" name="group3_projectors" value="podium" onclick="switchInput('results', 'G3', 'podium');">
-        <label for="G3_2" class="inputNames">Podium</label>
-      </input>&nbsp;
-      <input id="G3_3" type="radio" name="group3_projectors" value="camcorder" onclick="switchInput('results', 'G3', 'camcorder');">
-        <label for="G3_3" class="inputNames">Camcorder</label>
+      <input id="G2_3" class="inputNames" type="button" name="group2_projectors" value="Cam"
+        onclick="switchInput('results', 'G2', 'camcorder');">
       </input>
-      <input id="G3_4" type="radio" name="group3_projectors" value="laptop" onclick="switchInput('results', 'G3', 'laptop');">
-        <label for="G3_4" class="inputNames">Laptop</label>
+      <input id="G2_4" class="inputNames" type="button" name="group2_projectors" value="Laptop"
+        onclick="switchInput('results', 'G2', 'laptop');">
+      </input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input id="G21_1" class="inputNames" type="button" name="group2_actions" value="FRZ ON"
+        onclick="doComboCommand('results', 'G21_', 1);">
       </input>
-    </div>
-    <div class="v_selection_box evenrow">
-      <span class="projectors">RCCC DTV CHANNEL #2</span><br />
-      <input id="G4_1" type="radio" name="group4_projectors" value="mac" checked="checked" onclick="switchInput('results', 'G4', 'mac');">
-        <label for="G4_1" class="inputNames">Mac</label>
-      </input>&nbsp;
-      <input id="G4_2" type="radio" name="group4_projectors" value="podium" onclick="switchInput('results', 'G4', 'podium');">
-        <label for="G4_2" class="inputNames">Podium</label>
-      </input>&nbsp;
-      <input id="G4_3" type="radio" name="group4_projectors" value="camcorder" onclick="switchInput('results', 'G4', 'camcorder');">
-        <label for="G4_3" class="inputNames">Camcorder</label>
-      </input>
-      <input id="G4_4" type="radio" name="group4_projectors" value="laptop" onclick="switchInput('results', 'G4', 'laptop');">
-        <label for="G4_4" class="inputNames">Laptop</label>
+      <input id="G21_2" class="inputNames" type="button" name="group2_actions" value="FRZ OFF"
+        onclick="doComboCommand('results', 'G21_', 2);" style="background-color: red">
       </input>
     </div>
     <div class="v_selection_box oddrow">
-      <span class="projectors">PROJECTOR ACTIONS</span><br />
-      <input id="G5_1" type="radio" name="projectors" value="projector_front_left" checked="checked">
-        <label for="G5_1" class="inputNames">Front Left</label>
-      </input>&nbsp;
-      <input id="G5_2" type="radio" name="projectors" value="projector_front_center">
-        <label for="G5_2" class="inputNames">Front Center</label>
-      </input>&nbsp;
-      <input id="G5_3" type="radio" name="projectors" value="projector_front_right">
-        <label for="G5_3" class="inputNames">Front Right</label>
-      </input>&nbsp;
-      <input id="G5_4" type="radio" name="projectors" value="projector_back_center">
-        <label for="G5_4" class="inputNames">Back</label>
-      </input><br/>
-      <input id="G6_1" type="radio" name="projector_actions" value="ON" checked="checked">
-        <label for="G6_1" class="inputNames">On</label>
-      </input>&nbsp;
-      <input id="G6_2" type="radio" name="projector_actions" value="OFF">
-        <label for="G6_2" class="inputNames">Off</label>
-      </input>&nbsp;
-      <input id="G6_3" type="radio" name="projector_actions" value="FREEZE_ON">
-        <label for="G6_3" class="inputNames">Freeze</label>
-      </input>&nbsp;
-      <input id="G6_4" type="radio" name="projector_actions" value="FREEZE_OFF">
-        <label for="G6_4" class="inputNames">Unfreeze</label>
-      </input><br/>
-      <div align="right">
-        <input type="button" onclick="doCommand('results');" value="Apply" class="onoffbutton">
-      </div>
+      <span class="projectors">DTV CHANNEL 1-1</span><br />
+      <input id="G3_1" class="inputNames" type="button" name="group3_projectors" value="Mac"
+        onclick="switchInput('results', 'G3', 'mac');" style="background-color: red">
+      </input>
+      <input id="G3_2" class="inputNames" type="button" name="group3_projectors" value="Podium"
+        onclick="switchInput('results', 'G3', 'podium');">
+      </input>
+      <input id="G3_3" class="inputNames" type="button" name="group3_projectors" value="Cam"
+        onclick="switchInput('results', 'G3', 'camcorder');">
+      </input>
+      <input id="G3_4" class="inputNames" type="button" name="group3_projectors" value="Laptop"
+        onclick="switchInput('results', 'G3', 'laptop');">
+      </input>
     </div>
     <div class="v_selection_box evenrow">
-      <span class="projectors">AUDIO RECORDING: </span>
-      <input id="startButton" type="button" onclick="doRecording('results', 'START');"  value="Start" class="audiobutton">
-      <input id="stopButton" type="button" onclick="doRecording('results', 'STOP');" value="Stop" class="audiobutton" style="background-color: red">
+      <span class="projectors">DTV CHANNEL 2-1</span><br />
+      <input id="G4_1" class="inputNames" type="button" name="group4_projectors" value="Mac"
+        onclick="switchInput('results', 'G4', 'mac');" style="background-color: red">
+      </input>
+      <input id="G4_2" class="inputNames" type="button" name="group4_projectors" value="Podium"
+        onclick="switchInput('results', 'G4', 'podium');">
+      </input>
+      <input id="G4_3" class="inputNames" type="button" name="group4_projectors" value="Cam"
+        onclick="switchInput('results', 'G4', 'camcorder');">
+      </input>
+      <input id="G4_4" class="inputNames" type="button" name="group4_projectors" value="Laptop"
+        onclick="switchInput('results', 'G4', 'laptop');">
+      </input>
+    </div>
+    <div class="v_selection_box oddrow">
+      <span class="projectors">AUDIO RECORDING</span><br/>
+      <input id="G5_1" type="button" onclick="doRecording('results', 'START');"  value="Start" class="audiobutton">
+      <input id="G5_2" type="button" onclick="doRecording('results', 'STOP');" value="Stop" class="audiobutton" style="background-color: red">
     </div>
   </div>
-  <div id="results" class="results" />
+  <div id="results" class="results evenrow" />
 </div>
-
 }

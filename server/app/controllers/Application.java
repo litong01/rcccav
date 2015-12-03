@@ -43,4 +43,25 @@ public class Application extends Controller {
                       action + ".<br/>Results: " + results);
         }
     }
+
+    /**
+     * Perform action on a give device
+     * @param device The AV device which the action will be performed 
+     * @param action The action the device will perform.
+     * @return Action result.
+     */
+    public Result doComboCommand(String group, String action){
+        synchronized(this) {
+            String results = this.controller.doComboCommand(group, action);
+            return ok("Perform action on group device: " + group + 
+                      ". Action: " + action + ".<br/>Results: " + results);
+        }
+    }
+
+    public Result getSystemStatus() {
+        synchronized(this) {
+            String result = this.controller.getSystemStatus();
+            return ok(result);
+        }
+    }
 }

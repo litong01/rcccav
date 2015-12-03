@@ -1,8 +1,9 @@
 package models.rcccav.device;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import play.Logger;
 
+import play.Logger;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -39,10 +40,29 @@ public class RS232Device extends Device implements SerialPortEventListener{
         try {
             if (this.setting.actions.containsKey(cmd)) {
                 Logger.info("Ready to execute command: " + cmd);
-                this.actionResult = this.setting.title + ":";
-                this.initDevice();
-                byte[] action = this.getCmdByte(cmd);
-                this.serialPort.writeBytes(action);
+                byte[] action = null;
+                if (this.setting.actions.get(cmd).equals("COMBO")) {
+                    String key = cmd + "0"; int index = 0;
+                    String tempActionCode = "";
+                    while (this.setting.actions.containsKey(key)) {
+                        Logger.info("Ready to execute command: " + key);
+                        this.initDevice();
+                        action = this.getCmdByte(key);
+                        //Execute the command
+                        this.serialPort.writeBytes(action);
+                        index++;
+                        key = cmd + Integer.toString(index);
+                        try { Thread.sleep(100);} catch (InterruptedException ex) {}
+                        this.disconnect();
+                        tempActionCode += this.getActionCode();
+                    }
+                    this.actionCode = tempActionCode;
+                }
+                else {
+                    this.initDevice();
+                    action = this.getCmdByte(cmd);
+                    this.serialPort.writeBytes(action);
+                }
                 Logger.info(this.setting.title + " executed " + cmd + " request successfully!");
             }
             else {
@@ -50,7 +70,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
             }
         }
         catch (Exception ex) {
-            this.actionResult = this.setting.title + ex.getMessage();
+            this.actionResult = this.setting.title + " " + ex.getMessage();
             Logger.error(ex.getMessage());
         }
     }
@@ -75,14 +95,14 @@ public class RS232Device extends Device implements SerialPortEventListener{
             try {
                 byte buffer[] = this.serialPort.readBytes(1, 80);
                 for (int i=0; i < buffer.length; i++) {
-                    this.actionResult += String.format("%02x", buffer[i]);
+                    this.actionCode += String.format("%02x", buffer[i]);
                 }
             }
             catch (SerialPortException ex) {
                 ex.printStackTrace();
                 Logger.error(ex.getMessage());
             } catch (SerialPortTimeoutException ex) {
-                Logger.info("Not more data to read!");
+                Logger.debug("Not more data to read!");
             }
         }
         else if (event.isCTS()) {
@@ -107,6 +127,8 @@ public class RS232Device extends Device implements SerialPortEventListener{
     {
         try {
             Logger.info("Start initialize device " + this.setting.title);
+            this.actionCode = "";
+            this.actionResult = this.setting.title + ":";
             this.serialPort = new SerialPort(this.setting.deviceId);
             this.serialPort.openPort();
             HashMap<String, Integer> settings = this.setting.nParams;
