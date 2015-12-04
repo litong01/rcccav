@@ -57,9 +57,8 @@ function switchInput(resultDiv, group, source) {
       headers: {},
       success: function( data ) {
         console.log(data);
-        //$('#' + resultDiv).html(data);
-        //setStatus(group + '_', group + '_' + INPUTS[source]);
-        updateStatus();
+        $('#' + resultDiv).html(data);
+        setStatus(group + '_', group + '_' + INPUTS[source]);
       },
       error: function(data) {
         console.log(data);
