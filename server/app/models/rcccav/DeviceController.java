@@ -108,7 +108,6 @@ public class DeviceController {
         ArrayList<String> members = this.config.getMemberByName("INFO_GROUP");
         JSONObject result = new JSONObject();
         for (String deviceName: members) {
-            Logger.debug("!!!!!!===" + deviceName);
             Device device = this.config.getDevicesByName(deviceName);
             if (device != null) {
                 device.doCommand("INFO");

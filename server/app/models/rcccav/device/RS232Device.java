@@ -1,6 +1,5 @@
 package models.rcccav.device;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import play.Logger;
@@ -8,7 +7,6 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
-import jssc.SerialPortTimeoutException;
 
 import org.json.simple.JSONObject;
 
@@ -40,29 +38,9 @@ public class RS232Device extends Device implements SerialPortEventListener{
         try {
             if (this.setting.actions.containsKey(cmd)) {
                 Logger.info("Ready to execute command: " + cmd);
-                byte[] action = null;
-                if (this.setting.actions.get(cmd).equals("COMBO")) {
-                    String key = cmd + "0"; int index = 0;
-                    String tempActionCode = "";
-                    while (this.setting.actions.containsKey(key)) {
-                        Logger.info("Ready to execute command: " + key);
-                        this.initDevice();
-                        action = this.getCmdByte(key);
-                        //Execute the command
-                        this.serialPort.writeBytes(action);
-                        index++;
-                        key = cmd + Integer.toString(index);
-                        try { Thread.sleep(100);} catch (InterruptedException ex) {}
-                        this.disconnect();
-                        tempActionCode += this.getActionCode();
-                    }
-                    this.actionCode = tempActionCode;
-                }
-                else {
-                    this.initDevice();
-                    action = this.getCmdByte(cmd);
-                    this.serialPort.writeBytes(action);
-                }
+                byte[] action = this.getCmdByte(cmd);
+                this.initDevice();
+                this.serialPort.writeBytes(action);
                 Logger.info(this.setting.title + " executed " + cmd + " request successfully!");
             }
             else {
@@ -91,35 +69,16 @@ public class RS232Device extends Device implements SerialPortEventListener{
     }
 
     public void serialEvent(SerialPortEvent event) {
-        if (event.isRXCHAR()) {
-            try {
-                byte buffer[] = this.serialPort.readBytes(1, 80);
-                for (int i=0; i < buffer.length; i++) {
-                    this.actionCode += String.format("%02x", buffer[i]);
-                }
+        try {
+            byte buffer[] = this.serialPort.readBytes();
+            for (int i=0; i < buffer.length; i++) {
+                this.actionCode += String.format("%02x", buffer[i]);
             }
-            catch (SerialPortException ex) {
-                ex.printStackTrace();
-                Logger.error(ex.getMessage());
-            } catch (SerialPortTimeoutException ex) {
-                Logger.debug("Not more data to read!");
-            }
+            this.actionResult = this.actionCode;
         }
-        else if (event.isCTS()) {
-            if(event.getEventValue() == 1){//If line is ON
-                Logger.info("CTS - ON");
-            }
-            else {
-                Logger.info("CTS - OFF");
-            }
-        }
-        else if (event.isDSR()) {
-            if(event.getEventValue() == 1){//If line is ON
-                Logger.info("DSR - ON");
-            }
-            else {
-                Logger.info("DSR - OFF");
-            }
+        catch (SerialPortException ex) {
+            ex.printStackTrace();
+            Logger.error(ex.getMessage());
         }
     }
 

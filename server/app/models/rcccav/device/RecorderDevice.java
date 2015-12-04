@@ -84,7 +84,6 @@ public class RecorderDevice extends Device {
             }
             //For INFO command
             else if (cmd.equals("INFO")) {
-                Logger.debug("------------ Doing INFO!");
                 if (pid.isEmpty()) {
                     this.actionResult = "Recording is not in process!"; //not recording
                     this.actionCode = "0";
