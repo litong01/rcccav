@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 public class DeviceSetting {
     public String title = null;
+    public String name = null;
     public String deviceId = null;
     public short powerSequence = 1;
     public HashMap<String, Integer> nParams = new HashMap<String, Integer>();
@@ -15,6 +16,7 @@ public class DeviceSetting {
     public DeviceSetting(JSONObject setting) {
 
         this.title = (String) setting.get("title");
+        this.name = (String) setting.get("name");
         this.deviceId = (String) setting.get("deviceId");
         this.powerSequence = ((Long) setting.get("powerSequence")).shortValue();
 

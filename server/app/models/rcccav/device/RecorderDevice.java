@@ -68,29 +68,36 @@ public class RecorderDevice extends Device {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public JSONObject getStatus() {
+        JSONObject ns = new JSONObject();
+        String pid = this.getPid();
+        ns.put("recording", pid.isEmpty()==false);
+        JSONObject st = new JSONObject();
+        st.put(this.setting.name, ns);
+        return st;
+    }
+
+    @Override
     public void doCommand(String cmd) {
         String cmdStr = this.setting.actions.get(cmd);
         if (cmdStr != null && cmdStr.length() > 0) {
             String pid = this.getPid();
             if (pid.isEmpty() && cmd.equals("STOP")) {
                 this.actionResult = "Recording is not in process!"; //not recording
-                this.actionCode = "0";
                 return;
             }
             else if (!pid.isEmpty() && (cmd.equals("START"))) {
                 this.actionResult = "Recording is in process!"; //recording
-                this.actionCode = "1";
                 return;
             }
             //For INFO command
             else if (cmd.equals("INFO")) {
                 if (pid.isEmpty()) {
                     this.actionResult = "Recording is not in process!"; //not recording
-                    this.actionCode = "0";
                 }
                 else {
                     this.actionResult = "Recording is in process!"; //recording
-                    this.actionCode = "1";
                 }
                 return;
             }

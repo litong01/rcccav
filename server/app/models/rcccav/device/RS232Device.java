@@ -49,7 +49,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
         }
         catch (Exception ex) {
             this.actionResult = this.setting.title + " " + ex.getMessage();
-            Logger.error(ex.getMessage());
+            Logger.error(this.setting.title + " " + ex.getMessage());
         }
     }
 
@@ -62,8 +62,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
                 Logger.info("Device " + this.setting.title + " is now disconnected!");
             }
             catch (SerialPortException ex) {
-                ex.printStackTrace();
-                Logger.error(ex.getMessage());
+                Logger.error(this.setting.title + " " + ex.getMessage());
             }
         }
     }
@@ -72,13 +71,12 @@ public class RS232Device extends Device implements SerialPortEventListener{
         try {
             byte buffer[] = this.serialPort.readBytes();
             for (int i=0; i < buffer.length; i++) {
-                this.actionCode += String.format("%02x", buffer[i]);
+                this.actionResult += String.format("%02x", buffer[i]);
             }
-            this.actionResult = this.actionCode;
         }
         catch (SerialPortException ex) {
-            ex.printStackTrace();
-            Logger.error(ex.getMessage());
+            this.actionResult = "ERROR:" + ex.getMessage();
+            Logger.error(this.setting.title + " " + this.actionResult);
         }
     }
 
@@ -86,8 +84,7 @@ public class RS232Device extends Device implements SerialPortEventListener{
     {
         try {
             Logger.info("Start initialize device " + this.setting.title);
-            this.actionCode = "";
-            this.actionResult = this.setting.title + ":";
+            this.actionResult = "";
             this.serialPort = new SerialPort(this.setting.deviceId);
             this.serialPort.openPort();
             HashMap<String, Integer> settings = this.setting.nParams;
@@ -99,8 +96,9 @@ public class RS232Device extends Device implements SerialPortEventListener{
             Logger.info(this.setting.title + " is now initialized!");
         }
         catch (SerialPortException ex) {
-            ex.printStackTrace();
-            Logger.error(ex.getMessage());
+            this.actionResult = "ERROR:" + ex.getMessage();
+            Logger.error(this.setting.title + " " + this.actionResult);
+            return;
         }
         this.initListener();
     }
@@ -112,8 +110,8 @@ public class RS232Device extends Device implements SerialPortEventListener{
             Logger.info("Port listener added successfully!");
         }
         catch (SerialPortException ex) {
-            ex.printStackTrace();
-            Logger.error(ex.getMessage());
+            this.actionResult = "ERROR:" + ex.getMessage();
+            Logger.error(this.setting.title + " " + this.actionResult);
         }
     }
 }

@@ -5,26 +5,26 @@ body {
 
 .oddrow {
     background-color: #e6e6e6;
+    border: 1px solid #e6e6e6;
+    border-width:16px 1px 16px 1px;
 }
 
 .evenrow {
     background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-width:16px 1px 16px 1px;
 }
 
 .results {
     overflow-y: scroll;
     height: 60px;
-    margin: 0px 10px 1px 10px;
-    padding: 2px;
-    border: 1px solid green;
-    font-size: 8px;
+    border: 1px solid gray;
+    font-size: 16px;
     min-width: 400px;
 }
 
 .v_selection_box {
-    margin: 0px 10px 1px 10px;
     padding: 2px;
-    border: 1px solid gray;
     min-width: 400px;
 }
 

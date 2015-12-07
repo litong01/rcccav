@@ -1,6 +1,7 @@
 package models.rcccav.device;
 
 import java.io.IOException;
+
 import play.Logger;
 
 import org.json.simple.JSONObject;

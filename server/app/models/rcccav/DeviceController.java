@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Set;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import play.Logger;
@@ -20,6 +21,7 @@ public class DeviceController {
     private static DeviceController instance = null;
     private RecorderDevice recorder = null;
     private Configuration config = null;
+    private boolean status = true;
     private ScheduledExecutorService scheduler =
             Executors.newSingleThreadScheduledExecutor();
 
@@ -104,23 +106,31 @@ public class DeviceController {
         return results;
     }
 
+    @SuppressWarnings("unchecked")
+    private JSONObject getStatus() {
+        JSONObject onOffStatus = new JSONObject();
+        onOffStatus.put("On", this.status);
+        JSONObject sysStatus = new JSONObject();
+        sysStatus.put("system", onOffStatus);
+        return sysStatus;
+    }
+
+    @SuppressWarnings("unchecked")
     public String getSystemStatus() {
         ArrayList<String> members = this.config.getMemberByName("INFO_GROUP");
-        JSONObject result = new JSONObject();
+        JSONArray result = new JSONArray();
         for (String deviceName: members) {
             Device device = this.config.getDevicesByName(deviceName);
             if (device != null) {
-                device.doCommand("INFO");
-                // Wait for the command to complete
-                try { Thread.sleep(100);} catch (InterruptedException ex) {}
-                result.put(deviceName, device.getActionCode());
-                device.disconnect();
+                result.add(device.getStatus());
             }
             else {
                 Logger.debug("Device " + deviceName + " was not found!");
             }
         }
 
+        //Now add the system on or off status;
+        result.add(this.getStatus());
         return result.toString();
     }
 
@@ -155,9 +165,13 @@ public class DeviceController {
         switch (action) {
         case ON:
             results = this.doOnOff("ON");
+            //After the system is up running, do initialization.
+            this.initActions();
+            this.status = true;
             break;
         case OFF:
             results = this.doOnOff("OFF");
+            this.status = false;
             break;
         case REBOOT:
             break;
@@ -214,5 +228,14 @@ public class DeviceController {
             Logger.error(e.getMessage());
         }
         Logger.debug("Audio convertion and uploading process finised!");
+    }
+    
+    private void initActions() {
+        Set<String> devices = this.config.getDeviceList();
+        Device device = null;
+        for (String name: devices) {
+            device = this.config.getDevicesByName(name);
+            device.doInitActions();
+        }
     }
 }

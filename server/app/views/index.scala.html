@@ -2,14 +2,10 @@
 
 @main("Welcome to RCCC Audio/Video System!") {
 
-<div>
-  <div align="center">
+  <div align="center" style="border: 1px solid gray">
     <div class="v_selection_box">
       <input type="button" onclick="turnSystem('results', 'On');"  value="ON" class="systembutton">
       <input type="button" onclick="turnSystem('results', 'Off');" value="OFF" class="systembutton">
-      <!-- <input id="G_00" class="inputNames" type="button" name="update" value="Refresh"
-        onclick="updateStatus();">
-      </input> -->
     </div>
     <div class="v_selection_box oddrow">
       <span class="projectors">FRONT RIGHT, FRONT LEFT and BACK PROJECTOR</span><br />
@@ -85,10 +81,11 @@
     </div>
     <div class="v_selection_box oddrow">
       <span class="projectors">AUDIO RECORDING</span><br/>
-      <input id="G5_1" type="button" onclick="doRecording('results', 'START');"  value="Start" class="audiobutton">
-      <input id="G5_2" type="button" onclick="doRecording('results', 'STOP');" value="Stop" class="audiobutton" style="background-color: red">
+      <input id="G5_1" type="button" onclick="doRecording('results', 'START');"
+        value="Start" class="audiobutton">
+      <input id="G5_2" type="button" onclick="doRecording('results', 'STOP');"
+        value="Stop" class="audiobutton" style="background-color: red">
     </div>
+    <div id="results" align="left" class="results evenrow" />
   </div>
-  <div id="results" class="results evenrow" />
-</div>
 }

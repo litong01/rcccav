@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 import play.Logger;
@@ -24,6 +23,7 @@ public class Configuration {
     private HashMap<Integer, ArrayList<Device>> devices = null;
     private HashMap<String, Device> deviceByName = new HashMap<String, Device>();
 
+    @SuppressWarnings("unchecked")
     public Configuration(String config_file) {
         try {
             JSONParser parser = new JSONParser();
@@ -48,6 +48,7 @@ public class Configuration {
                 String deviceType = (String) item.get("deviceType");
                 Class<?> deviceClass = Class.forName("models.rcccav.device." + deviceType);
                 Constructor<?> ctor = deviceClass.getConstructor(JSONObject.class);
+                item.put("name", key);
                 Device device = (Device) ctor.newInstance(item);
                 this.devices.get(seq).add(device);
                 this.deviceByName.put((String) key, device);
