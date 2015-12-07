@@ -157,8 +157,24 @@ function updateStatus() {
       type: 'get',
       headers: {},
       success: function( data ) {
-        console.log(data);
-        $('#results').html(data);
+        var json_obj = $.parseJSON(data);
+        var pos = json_obj.vga_matrix_switch.Position;
+        if (pos && json_obj.system.On == true) {
+            //Update the VGA Switch position
+            setStatus("G1_", "G1_" + pos.A);
+            setStatus("G2_", "G2_" + pos.B);
+            setStatus("G3_", "G3_" + pos.C);
+            setStatus("G4_", "G4_" + pos.D);
+            //Update the recording status
+            var recording = (json_obj.recorder.recording==true)?"1":"2";
+            setStatus("G5_", "G5_" + recording);
+            //update the freeze on/off status for group1
+            var g11_s = (json_obj.projector_front_left.Unfreezed==true)?"2":"1";
+            setStatus("G11_", "G11_" + g11_s);
+            //update the freeze on/off status for group2
+            var g21_s = (json_obj.projector_front_center.Unfreezed==true)?"2":"1";
+            setStatus("G21_", "G21_" + g21_s);
+        }
       },
       error: function(data) {
         console.log(data);
@@ -166,3 +182,9 @@ function updateStatus() {
       }
     });
 }
+
+$(document).ready(function() {
+    updateStatus();
+    setInterval(updateStatus, 1000*60*3);
+})
+

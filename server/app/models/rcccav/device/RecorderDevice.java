@@ -70,12 +70,10 @@ public class RecorderDevice extends Device {
     @Override
     @SuppressWarnings("unchecked")
     public JSONObject getStatus() {
-        JSONObject ns = new JSONObject();
+        JSONObject newStatus = new JSONObject();
         String pid = this.getPid();
-        ns.put("recording", pid.isEmpty()==false);
-        JSONObject st = new JSONObject();
-        st.put(this.setting.name, ns);
-        return st;
+        newStatus.put("recording", pid.isEmpty()==false);
+        return newStatus;
     }
 
     @Override

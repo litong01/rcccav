@@ -108,21 +108,19 @@ public class DeviceController {
 
     @SuppressWarnings("unchecked")
     private JSONObject getStatus() {
-        JSONObject onOffStatus = new JSONObject();
-        onOffStatus.put("On", this.status);
-        JSONObject sysStatus = new JSONObject();
-        sysStatus.put("system", onOffStatus);
-        return sysStatus;
+        JSONObject newStatus = new JSONObject();
+        newStatus.put("On", this.status);
+        return newStatus;
     }
 
     @SuppressWarnings("unchecked")
     public String getSystemStatus() {
         ArrayList<String> members = this.config.getMemberByName("INFO_GROUP");
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
         for (String deviceName: members) {
             Device device = this.config.getDevicesByName(deviceName);
             if (device != null) {
-                result.add(device.getStatus());
+                result.put(deviceName, device.getStatus());
             }
             else {
                 Logger.debug("Device " + deviceName + " was not found!");
@@ -130,7 +128,7 @@ public class DeviceController {
         }
 
         //Now add the system on or off status;
-        result.add(this.getStatus());
+        result.put("system", this.getStatus());
         return result.toString();
     }
 

@@ -1,8 +1,5 @@
 package models.rcccav.device;
 
-import java.util.Arrays;
-
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class VGASwitch extends RS232Device {
@@ -31,13 +28,12 @@ public class VGASwitch extends RS232Device {
     public JSONObject getStatus() {
         JSONObject newStatus = new JSONObject();
         newStatus.put("On", this.onStatus);
-        JSONArray pos = new JSONArray();
-        for (String mapping: this.mappings)
-            pos.add(mapping);
+        JSONObject pos = new JSONObject();
+        for (String mapping: this.mappings) {
+            pos.put(mapping.substring(3), mapping.substring(1, 2));
+        }
         newStatus.put("Position", pos);
-        JSONObject ns = new JSONObject();
-        ns.put(this.setting.name, newStatus);
-        return ns;
+        return newStatus;
     }
 
 }

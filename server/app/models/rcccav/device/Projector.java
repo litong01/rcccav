@@ -26,9 +26,7 @@ public class Projector extends RS232Device {
         JSONObject newStatus = new JSONObject();
         newStatus.put("On", this.onStatus);
         newStatus.put("Unfreezed", this.unFreezed);
-        JSONObject ns = new JSONObject();
-        ns.put(this.setting.name, newStatus);
-        return ns;
+        return newStatus;
     }
 
 }
