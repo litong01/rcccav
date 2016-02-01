@@ -221,6 +221,7 @@ public class DeviceController {
         try {
             this.recorder.doWavToMP3("2MP3");
             this.recorder.doMP3Uploads();
+            this.recorder.doCleanup();
         }
         catch (Exception e) {
             Logger.error(e.getMessage());

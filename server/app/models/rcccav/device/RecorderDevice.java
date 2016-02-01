@@ -223,6 +223,35 @@ public class RecorderDevice extends Device {
         }
     }
 
+    private void delFileList(File[] fileList, long timemark) {
+        for (File aFile : fileList) {
+            if (aFile.isFile()) {
+                //First convert the wav to mp3
+                filename = aFile.getName();
+                if (aFile.lastModified() < timemark) {
+                    aFile.delete();
+                }
+            }
+        }
+    }
+
+    public void doCleanup() {
+        //If recording is in progress, we will not perform this task
+        String pid = this.getPid();
+        if (!pid.isEmpty()) return;
+
+        // current time minus 60 days in milliseconds
+        long timemark = System.currentTimeMillis() - 5184000000L;
+
+        File fDir = new File(this.wavBackupDir);
+        File[] fileList = fDir.listFiles(this.wavFilter);
+        this.delFileList(fileList, timemark);
+
+        fDir = new File(this.mp3BackupDir);
+        fileList = fDir.listFiles(this.mp3Filter);
+        this.delFileList(fileList, timemark);
+    }
+
     private void executeCmdWithoutOutput(String cmdStr) {
         try {
             Logger.debug("Ready to execute recorder command: " + cmdStr);
