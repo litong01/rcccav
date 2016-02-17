@@ -218,7 +218,7 @@
                        "mp3BackupDir":"/opt/recorder/mp3Backup",
                        "filename":"rccc-audio-%Y-%m-%d-%a-%H-%M-%S.wav",
                        "ftp_host": "www.raleighccc.org", "ftp_user":"rcccav", "ftp_password":"XXXXXXX", "ftp_dir": "/"},
-           "actions": {"START": "arecord -f dat -d 216000 -Dhw:1,0 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
+           "actions": {"START": "arecord -f dat -d 216000 -Dhw:1,0 --max-file-time 2700 --process-id-file $wavDir/pid --use-strftime $wavDir/$filename",
                        "STOP": "kill -TERM $pid",
                        "2MP3": "lame --quiet -V3 -b128 $wavDir/$fileName.wav $mp3Dir/$fileName.mp3",
                        "INFO": "INFO"}
