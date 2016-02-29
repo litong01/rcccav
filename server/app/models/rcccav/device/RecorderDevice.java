@@ -118,7 +118,7 @@ public class RecorderDevice extends Device {
         return pid;
     }
 
-    private boolean doUploadMP3(String path, String filename) {
+    private boolean doUploadMP3(String path, String name) {
         boolean resultFlag = false;
         FTPClient ftpClient = new FTPClient();
         try {
@@ -129,23 +129,23 @@ public class RecorderDevice extends Device {
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 
             // uploads file using an InputStream
-            File localFile = new File(path + "/" + filename);
+            File localFile = new File(path + "/" + name);
 
             Calendar now = Calendar.getInstance();
             int year = now.get(Calendar.YEAR);
             String yearInString = String.valueOf(year);
-            String remoteFile = this.ftp_dir + yearInString + "/" + filename;
+            String remoteFile = this.ftp_dir + yearInString + "/" + name;
             InputStream inputStream = new FileInputStream(localFile);
 
-            Logger.debug("Start uploading file " + filename + " to " + remoteFile);
+            Logger.debug("Start uploading file " + name + " to " + remoteFile);
             boolean done = ftpClient.storeFile(remoteFile, inputStream);
             inputStream.close();
             if (done) {
-                Logger.debug(filename + " uploaded successfully!");
+                Logger.debug(name + " uploaded successfully!");
                 resultFlag = true;
             }
             else {
-                Logger.error(filename + " uploading failed!");
+                Logger.error(name + " uploading failed!");
             }
         } catch (IOException ex) {
             Logger.error(ex.getMessage());
@@ -167,16 +167,16 @@ public class RecorderDevice extends Device {
         if (!pid.isEmpty()) return;
         File mp3Dir = new File(this.mp3Dir);
         File[] fileList = mp3Dir.listFiles(this.mp3Filter);
-        String filename = "";
+        String name = "";
 
         for (File mp3File : fileList) {
             //Make sure that we try 3 times if the upload fails
-            filename = mp3File.getName();
+            name = mp3File.getName();
             if (mp3File.isFile()) {
-                if (this.doUploadMP3(this.mp3Dir, filename)) {
+                if (this.doUploadMP3(this.mp3Dir, name)) {
                     try {
-                        Path sPath = Paths.get(this.mp3Dir + "/" + filename);
-                        Path tPath = Paths.get(this.mp3BackupDir + "/" + filename);
+                        Path sPath = Paths.get(this.mp3Dir + "/" + name);
+                        Path tPath = Paths.get(this.mp3BackupDir + "/" + name);
                         Files.move(sPath, tPath, StandardCopyOption.REPLACE_EXISTING);
                     } catch (IOException e) {
                         Logger.error(e.getMessage());
@@ -198,22 +198,22 @@ public class RecorderDevice extends Device {
 
         File wavDir = new File(this.wavDir);
         File[] fileList = wavDir.listFiles(this.wavFilter);
-        String filename = "";
+        String name = "";
         String newCmd = "";
         String cmdStr = this.setting.actions.get(cmd);
         for (File wavFile : fileList) {
             if (wavFile.isFile()) {
                 //First convert the wav to mp3
-                filename = wavFile.getName();
-                filename = filename.substring(0, filename.length() - 4);
+                name = wavFile.getName();
+                name = name.substring(0, name.length() - 4);
                 newCmd = cmdStr.replace("$wavDir", this.wavDir);
                 newCmd = newCmd.replace("$mp3Dir", this.mp3Dir);
-                newCmd = newCmd.replace("$fileName", filename);
+                newCmd = newCmd.replace("$fileName", name);
 
                 // if conversion is OK move the file
                 if (this.executeCmdWithOutput(newCmd)) {
-                    Path sPath = Paths.get(this.wavDir + "/" + filename + ".wav");
-                    Path tPath = Paths.get(this.wavBackupDir + "/" + filename + ".mp3");
+                    Path sPath = Paths.get(this.wavDir + "/" + name + ".wav");
+                    Path tPath = Paths.get(this.wavBackupDir + "/" + name + ".mp3");
                     try {
                         Files.move(sPath, tPath, StandardCopyOption.REPLACE_EXISTING);
                     } catch (IOException e) {
@@ -228,8 +228,6 @@ public class RecorderDevice extends Device {
     private void delFileList(File[] fileList, long timemark) {
         for (File aFile : fileList) {
             if (aFile.isFile()) {
-                //First convert the wav to mp3
-                filename = aFile.getName();
                 if (aFile.lastModified() < timemark) {
                     aFile.delete();
                 }
