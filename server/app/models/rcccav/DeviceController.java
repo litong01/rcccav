@@ -228,7 +228,7 @@ public class DeviceController {
         }
         Logger.debug("Audio convertion and uploading process finised!");
     }
-    
+
     private void initActions() {
         Set<String> devices = this.config.getDeviceList();
         Device device = null;

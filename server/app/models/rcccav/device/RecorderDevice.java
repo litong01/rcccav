@@ -182,10 +182,11 @@ public class RecorderDevice extends Device {
                         Logger.error(e.getMessage());
                     }
                 }
-                try {
-                    //We need to wait for awhile before handle next file.
-                    Thread.sleep(this.delayBetweenUploadRetrys * 1000);
-                } catch (InterruptedException ex) {}
+                //try {
+                //    //We need to wait for awhile before handle next file.
+                //    Thread.sleep(this.delayBetweenUploadRetrys * 1000);
+                //} catch (InterruptedException ex) {}
+                break;
             }
         }
     }
@@ -219,6 +220,7 @@ public class RecorderDevice extends Device {
                         Logger.error(e.getMessage());
                     }
                 }
+                break;
             }
         }
     }
