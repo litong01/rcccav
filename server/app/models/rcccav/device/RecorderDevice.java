@@ -244,7 +244,7 @@ public class RecorderDevice extends Device {
         long timemark = System.currentTimeMillis() - 5184000000L;
 
         File fDir = new File(this.wavBackupDir);
-        File[] fileList = fDir.listFiles(this.wavFilter);
+        File[] fileList = fDir.listFiles(this.mp3Filter);
         this.delFileList(fileList, timemark);
 
         fDir = new File(this.mp3BackupDir);
