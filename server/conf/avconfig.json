@@ -3,7 +3,9 @@
    "delay": 7,
    "groups": {
       "G11_": ["projector_front_left", "projector_front_right", "projector_back_center"],
+      "G12_": ["projector_front_left", "projector_front_right", "projector_back_center"],
       "G21_": ["projector_front_center"],
+      "G22_": ["projector_front_center"],
       "INFO_GROUP": ["projector_front_left", "projector_front_center", "vga_matrix_switch", "recorder"],
       "INIT_DEVICES": ["vga_matrix_switch", "projector_front_left", "projector_front_center",
                        "projector_front_right", "projector_back_center"]

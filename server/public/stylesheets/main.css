@@ -43,6 +43,16 @@ input.inputNames {
     backgroud-color: #f2f2f2;
 }
 
+input.onoffNames {
+    font-family: verdana;
+    width:60px;
+    margin: 0px 1px 0px 1px;
+    border: 1px solid gray;
+    font-size: 18px;
+    color: #005A31;
+    backgroud-color: #f2f2f2;
+}
+
 input.onoffbutton {
     width: 100px;
     height: 30px;

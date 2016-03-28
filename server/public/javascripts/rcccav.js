@@ -90,9 +90,12 @@ function doCommand(resultDiv) {
     });
 }
 
+var ACTIONS = {'G11_1': 'FREEZE_ON', 'G11_2': 'FREEZE_OFF',
+               'G12_1': 'ON', 'G12_1': 'OFF',
+               'G21_1': 'FREEZE_ON', 'G21_2': 'FREEZE_OFF',
+               'G22_1': 'ON', 'G22_2': 'OFF'};
+
 function doComboCommand(resultDiv, group_prefix, onId) {
-    var ACTIONS = {'G11_1': 'FREEZE_ON', 'G11_2': 'FREEZE_OFF',
-                   'G21_1': 'FREEZE_ON', 'G21_2': 'FREEZE_OFF'};
     //Now ready to send the command.
     var action_name = ACTIONS[group_prefix + onId];
     $.ajax({
@@ -137,7 +140,9 @@ function doRecording(resultDiv, action) {
 
 var ON_COLOR = 'red';
 var OFF_COLOR = '#f2f2f2';
-var GROUP_MAX = {G1_:4, G11_:2, G2_:4, G21_:2, G3_:4, G4_:4, G5_:2};
+var GROUP_MAX = {G1_:4, G11_:2, G12_:2,
+                 G2_:4, G21_:2, G22_:2,
+                 G3_:4, G4_:4, G5_:2};
 
 function setStatus(group_prefix, onId) {
     var buttonId = "";
@@ -168,12 +173,20 @@ function updateStatus() {
             //Update the recording status
             var recording = (json_obj.recorder.recording==true)?"1":"2";
             setStatus("G5_", "G5_" + recording);
+
             //update the freeze on/off status for group1
             var g11_s = (json_obj.projector_front_left.Unfreezed==true)?"2":"1";
             setStatus("G11_", "G11_" + g11_s);
             //update the freeze on/off status for group2
             var g21_s = (json_obj.projector_front_center.Unfreezed==true)?"2":"1";
             setStatus("G21_", "G21_" + g21_s);
+
+            //update the on/off status for group1
+            var g12_s = (json_obj.projector_front_left.On==true)?"2":"1";
+            setStatus("G12_", "G12_" + g12_s);
+            //update the on/off status for group2
+            var g22_s = (json_obj.projector_front_center.On==true)?"2":"1";
+            setStatus("G22_", "G22_" + g22_s);
         }
       },
       error: function(data) {
@@ -183,8 +196,9 @@ function updateStatus() {
     });
 }
 
+var delays = 1000*60*3;
 $(document).ready(function() {
     updateStatus();
-    setInterval(updateStatus, 1000*60*3);
+    setInterval(updateStatus, delays);
 })
 
