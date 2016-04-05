@@ -56,7 +56,7 @@ For development:
 
 Run the following command to build:
 
-    ./activate clean stage
+    ./activator clean stage
 
 Go to target/universal/stage directory, then run the following command:
 
