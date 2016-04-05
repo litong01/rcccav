@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,6 +13,26 @@ public class Application extends Controller {
 
     public Result index() {
         return ok(views.html.index.render("Something"));
+    }
+
+    public Result listFiles() {
+        synchronized(this) {
+            this.controller.doCommand("browser", "GET_FILE_LIST");
+            String results = this.controller.getActionResponse("browser");
+            String[] files = results.split("/");
+            return ok(views.html.list.render("All Audio Files", files));
+        }
+    }
+    
+    public Result getFile(String name) {
+        synchronized(this) {
+            this.controller.doCommand("browser", name);
+            String results = this.controller.getActionResponse("browser");
+            if ( results.length() > 0)
+                return ok(new java.io.File(results));
+            else
+                return notFound(name);
+        }
     }
 
     /**

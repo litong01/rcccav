@@ -224,6 +224,15 @@
                        "STOP": "kill -TERM $pid",
                        "2MP3": "lame --quiet -V3 -b128 $wavDir/$fileName.wav $mp3Dir/$fileName.mp3",
                        "INFO": "INFO"}
+          },
+       "browser":
+          {"title": "Audio File Browser",
+           "deviceId": "audio-file-browser",
+           "deviceType": "BrowserDevice",
+           "powerSequence": 1,
+           "enabled": true,
+           "sParams": {"fileDir":"/opt/recorder/wavBackup"},
+           "actions": {"INFO": "INFO"}
           }
    }
 }

@@ -1,0 +1,13 @@
+@(message: String, files: Array[String])
+
+@main("RCCC Recorded Files") {
+  RCCC recorded audio files:
+  <ul>
+  @for(index<-0 until files.size) {
+    @if(files(index).length > 0) {
+      <li><a href="/rcccav/getting/@files(index)">@files(index)</a></li>
+    }
+  }
+  </ul>
+
+}

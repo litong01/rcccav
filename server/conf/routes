@@ -16,3 +16,7 @@ GET   /rcccav/video/:device/:action    controllers.Application.switchVideoSignal
 GET   /rcccav/combo/:group/:action     controllers.Application.doComboCommand(group: String, action: String)
 
 GET   /rcccav/status                   controllers.Application.getSystemStatus()
+
+GET   /rcccav/listing                  controllers.Application.listFiles()
+
+GET   /rcccav/getting/:name            controllers.Application.getFile(name: String)
