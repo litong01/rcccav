@@ -33,7 +33,7 @@ For production:
 To build a Ubuntu native package so that it can be installed as a Ubuntu
 service, run the following command:
 
-    ./activate debian:packageBin
+    ./activator debian:packageBin
 
 The above command will create a debian package named rcccav_1.0_all.deb in
 target directory. Then you can simply run the following command to install
